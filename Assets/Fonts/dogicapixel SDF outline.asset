@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: dogicapixel SDF
+  m_Name: dogicapixel SDF outline
   m_EditorClassIdentifier: 
-  hashCode: -1898688322
+  hashCode: -1555239202
   material: {fileID: 4265616373117451030}
-  materialHashCode: -1396508962
+  materialHashCode: 1434789438
   m_Version: 1.1.0
   m_SourceFontFileGUID: 19753d2cf0659d54b9eb25e09eb97668
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 19753d2cf0659d54b9eb25e09eb97668, type: 3}
@@ -2615,7 +2615,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.1
+    - _OutlineWidth: 0.18
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333
