@@ -23,7 +23,8 @@ namespace LudumDare53.Card
         private GameObject _cardPrefab;
 
         [SerializeField]
-        private List<CardInfo> _playerCards;
+        private CardInfo[] _playerCards;
+        private List<CardInfo> _playerDeck;
 
         [SerializeField]
         private CardInfo _uselessMumble;
@@ -41,6 +42,7 @@ namespace LudumDare53.Card
         private void Awake()
         {
             Instance = this;
+            _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
         }
 
         public void RemoveCards()
@@ -57,10 +59,13 @@ namespace LudumDare53.Card
 
         public void SpawnCards()
         {
+            var tmpDeck = new List<CardInfo>(_playerDeck);
             for (int i = 0; i < 3; i++)
             {
+                var index = Random.Range(0, tmpDeck.Count);
                 var go = Instantiate(_cardPrefab, _cardContainer);
-                go.GetComponent<CardInstance>().Info = _playerCards[Random.Range(0, _playerCards.Count)];
+                go.GetComponent<CardInstance>().Info = tmpDeck[index];
+                tmpDeck.RemoveAt(index);
             }
         }
 
@@ -108,12 +113,12 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.INTIMIDATE:
-                        _playerCards.Add(_uselessMumble);
+                        _playerDeck.Add(_uselessMumble);
                         break;
 
                     case ActionType.DESTROY_ON_DISCARD:
-                        var index = _playerCards.IndexOf(card);
-                        _playerCards.RemoveAt(index);
+                        var index = _playerDeck.IndexOf(card);
+                        _playerDeck.RemoveAt(index);
                         break;
 
                     default:
