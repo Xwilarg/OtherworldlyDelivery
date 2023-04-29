@@ -48,6 +48,12 @@ namespace LudumDare53.Dialogue
         [SerializeField]
         private GameObject _gameUI;
 
+        [SerializeField]
+        private AudioSource _bgm;
+
+        [SerializeField]
+        private AudioClip _gameClip;
+
         private string[] _lines;
         private int _index;
 
@@ -75,6 +81,10 @@ namespace LudumDare53.Dialogue
             {
                 _textContainer.SetActive(false);
                 _gameUI.SetActive(true);
+                var pos = _bgm.time;
+                _bgm.clip = _gameClip;
+                _bgm.Play();
+                _bgm.time = pos;
                 return;
             }
             while (true)
@@ -133,7 +143,7 @@ namespace LudumDare53.Dialogue
 
         public void OnClick(InputAction.CallbackContext value)
         {
-            if (value.performed && _isEnabled)
+            if (value.performed && _isEnabled && _textContainer.activeInHierarchy)
             {
                 ShowNext();
             }
