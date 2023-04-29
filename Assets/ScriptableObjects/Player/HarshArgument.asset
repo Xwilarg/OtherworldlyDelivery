@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HarshArgument
   m_EditorClassIdentifier: 
   Title: Harsh Argument
-  Sentence: Here, that's your name right?
+  Sentence: Look, that's your name right?
   Effects:
   - Type: 0
     Value: 20

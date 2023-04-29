@@ -3254,7 +3254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a451835ad10de5a42b41bd2480cff91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnabled: 0
+  _isEnabled: 1
   _story: {fileID: 4900000, guid: 97e7496a02208e9409161f66bfca81b1, type: 3}
   _textContainer: {fileID: 790908902}
   _dialogueText: {fileID: 1755703626}
@@ -3420,6 +3420,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75f55b1340c275f4da581af611364281, type: 2}
   - {fileID: 11400000, guid: cce72a0329644d940b3d78308f271bf8, type: 2}
   - {fileID: 11400000, guid: 39caf4cd51345344d807b5be2d7fc675, type: 2}
+  - {fileID: 11400000, guid: b372bd78619826b4f801b10d0535b5e4, type: 2}
   _uselessMumble: {fileID: 11400000, guid: 62606207184fb7b45b26be8c11e3fb5f, type: 2}
   _cardAIPos: {fileID: 1151268901}
   _rageText: {fileID: 2056875687}

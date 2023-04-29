@@ -40,6 +40,7 @@ namespace LudumDare53.Card
         private bool _isNotAITurn;
 
         private int _attackCooldownPlayer, _attackCooldownAI, _attackForceCooldownAI;
+        private int _attackBoost;
         private int _noDrawbackCooldownPlayer;
         private int _damageToRageCooldown;
 
@@ -90,6 +91,13 @@ namespace LudumDare53.Card
                 else if (_rage > 0)
                     return $"Inflict <color=red>{modValue}</color> damage";
             }
+            else
+            {
+                if (_attackBoost > 0)
+                {
+                    return $"Inflict <color=green>{value * 2}</color> damage";
+                }
+            }
             return $"Inflict {value} damage";
         }
 
@@ -103,14 +111,15 @@ namespace LudumDare53.Card
                     $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
-                    $"Decreate rage by {-x.Value}",
+                    $"Decrease rage by {-x.Value}",
                 ActionType.INTIMIDATE => $"Target gain a \"Useless Mumble\" card",
                 ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
                 ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
-                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} are halved and reduce the rage",
+                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are halved and reduce the rage",
                 ActionType.FORCE_ATTACK => $"Force target to play damage cards for {x.Value} turns",
+                ActionType.DAMAGE_BOOST => $"All your attacks does twice the amount of damage for {x.Value} turns",
                 _ => throw new NotImplementedException()
             }));
         }
@@ -150,6 +159,10 @@ namespace LudumDare53.Card
                         else
                         {
                             value *= -1;
+                            if (_attackBoost > 0)
+                            {
+                                value *= 2;
+                            }
                         }
                         HealthManager.Instance.TakeDamage(value);
                         break;
@@ -198,6 +211,11 @@ namespace LudumDare53.Card
 
                     case ActionType.DEFLECT_ON_RAGE:
                         if (_isNotAITurn) _damageToRageCooldown = e.Value;
+                        else throw new NotImplementedException();
+                        break;
+
+                    case ActionType.DAMAGE_BOOST:
+                        if (_isNotAITurn) _attackBoost = e.Value;
                         else throw new NotImplementedException();
                         break;
 

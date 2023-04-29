@@ -10,6 +10,7 @@
         MAX_HEALTH,
         NO_NEGATIVE_DAMAGE,
         DEFLECT_ON_RAGE,
-        FORCE_ATTACK
+        FORCE_ATTACK,
+        DAMAGE_BOOST
     }
 }
