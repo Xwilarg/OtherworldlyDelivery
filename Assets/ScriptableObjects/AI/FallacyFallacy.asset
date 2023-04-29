@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FallacyFallacy
   m_EditorClassIdentifier: 
   Title: Fallacy Fallacy
-  Sentence: Your arguments are fallacious so this don't belong to me
+  Sentence: Your arguments are fallacious so this doesn't belong to me
   Effects:
   - Type: 1
     Value: 10

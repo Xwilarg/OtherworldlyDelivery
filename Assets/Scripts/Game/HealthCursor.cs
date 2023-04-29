@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LudumDare53.Effect
+namespace LudumDare53.Game
 {
     public class HealthCursor : MonoBehaviour
     {
