@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Middle Ground
   m_EditorClassIdentifier: 
   Title: Middle Ground
-  Sentence: Maybe I ordered this but it wasn't this item on the site
+  Sentence: Maybe I ordered this but it wasn't what was displayed on the site
   Effects:
   - Type: 0
     Value: 15
