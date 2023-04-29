@@ -1,3 +1,4 @@
+using LudumDare53.Audio;
 using LudumDare53.Card;
 using System;
 using System.Collections.Generic;
@@ -52,9 +53,6 @@ namespace LudumDare53.Dialogue
         private GameObject _gameUI;
 
         [SerializeField]
-        private AudioSource _bgm;
-
-        [SerializeField]
         private AudioClip _gameClip;
 
         private string[] _lines;
@@ -74,7 +72,11 @@ namespace LudumDare53.Dialogue
                 _cardsManager.SpawnCards();
                 return;
             }
-            _callback = _cardsManager.SpawnCards;
+            _callback = () =>
+            {
+                BGMManager.Instance.SetBGM(_gameClip);
+                _cardsManager.SpawnCards();
+            };
             _gameUI.SetActive(false);
             _lines = _story.text.Replace("\r", "").Split('\n', StringSplitOptions.RemoveEmptyEntries);
             ShowNext();
@@ -108,10 +110,6 @@ namespace LudumDare53.Dialogue
             {
                 _textContainer.SetActive(false);
                 _gameUI.SetActive(true);
-                var pos = _bgm.time;
-                _bgm.clip = _gameClip;
-                _bgm.Play();
-                _bgm.time = pos;
                 _callback?.Invoke();
                 return;
             }
