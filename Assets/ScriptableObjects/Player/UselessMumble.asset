@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e51921479083b55468b1d547d80be2f2, type: 3}
-  m_Name: SoundArgument
+  m_Name: UselessMumble
   m_EditorClassIdentifier: 
-  Title: Sound Argument
-  Sentence: Your address is on the package
+  Title: Useless Mumble
+  Sentence: Eh.. Erm... I....
   Effects:
-  - Type: 0
-    Value: 5
+  - Type: 3
+    Value: 0

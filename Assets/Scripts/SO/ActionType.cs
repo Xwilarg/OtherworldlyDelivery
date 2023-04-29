@@ -2,6 +2,9 @@
 {
     public enum ActionType
     {
-        DAMAGE
+        DAMAGE,
+        RAGE,
+        INTIMIDATE,
+        DESTROY_ON_DISCARD
     }
 }

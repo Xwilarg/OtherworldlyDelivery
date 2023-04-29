@@ -3,8 +3,9 @@ using LudumDare53.Game;
 using LudumDare53.NPC;
 using LudumDare53.SO;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -22,10 +23,18 @@ namespace LudumDare53.Card
         private GameObject _cardPrefab;
 
         [SerializeField]
-        private CardInfo[] _playerCards;
+        private List<CardInfo> _playerCards;
+
+        [SerializeField]
+        private CardInfo _uselessMumble;
 
         [SerializeField]
         private RectTransform _cardAIPos;
+
+        [SerializeField]
+        private TMP_Text _rageText;
+
+        private int _rage;
 
         private bool _isAITurn;
 
@@ -51,7 +60,7 @@ namespace LudumDare53.Card
             for (int i = 0; i < 3; i++)
             {
                 var go = Instantiate(_cardPrefab, _cardContainer);
-                go.GetComponent<CardInstance>().Info = _playerCards[Random.Range(0, _playerCards.Length)];
+                go.GetComponent<CardInstance>().Info = _playerCards[Random.Range(0, _playerCards.Count)];
             }
         }
 
@@ -66,7 +75,12 @@ namespace LudumDare53.Card
         {
             return string.Join("\n", card.Effects.Select(x => x.Type switch
             {
-                ActionType.DAMAGE => $"Inflict {x.Value} damage",
+                ActionType.DAMAGE => x.Value > 0 ?
+                    $"Inflict {x.Value} damage" :
+                    $"Take {-x.Value} damage",
+                ActionType.RAGE => $"Increase rage by {x.Value}",
+                ActionType.INTIMIDATE => $"Target gain a \"Useless Mumble\" card",
+                ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
                 _ => throw new NotImplementedException()
             }));
         }
@@ -79,7 +93,25 @@ namespace LudumDare53.Card
                 switch (e.Type)
                 {
                     case ActionType.DAMAGE:
-                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -1 : 1));
+                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -(1 + _rage) : 1));
+                        break;
+
+                    case ActionType.RAGE:
+                        _rage += e.Value;
+                        if (_rage < 0)
+                        {
+                            _rage = 0;
+                        }
+                        _rageText.text = $"Rage: {_rage}";
+                        break;
+
+                    case ActionType.INTIMIDATE:
+                        _playerCards.Add(_uselessMumble);
+                        break;
+
+                    case ActionType.DESTROY_ON_DISCARD:
+                        var index = _playerCards.IndexOf(card);
+                        _playerCards.RemoveAt(index);
                         break;
 
                     default:
