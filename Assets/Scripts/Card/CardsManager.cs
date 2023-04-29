@@ -149,7 +149,7 @@ namespace LudumDare53.Card
                         var value = e.Value;
                         if (!_isNotAITurn)
                         {
-                            value += 1 + _rage / 10;
+                            value *= 1 + _rage / 10;
                             if (_damageToRageCooldown > 0)
                             {
                                 value /= 2;
@@ -169,7 +169,10 @@ namespace LudumDare53.Card
                             }
                         }
 #if UNITY_EDITOR
-                        Debug.Log($"Taking {value} damage from a base of {HealthManager.Instance.Health}");
+                        if (!_isNotAITurn)
+                        {
+                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / 10) <=> {value} * {1 + _rage / 10}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
+                        }
 #endif
                         HealthManager.Instance.TakeDamage(value);
                         break;
