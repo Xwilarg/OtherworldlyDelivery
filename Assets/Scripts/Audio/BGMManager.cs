@@ -16,7 +16,7 @@ namespace LudumDare53.Audio
                 DontDestroyOnLoad(gameObject);
                 _bgm = GetComponent<AudioSource>();
             }
-            else if (Instance.GetInstanceID() != Instance.GetInstanceID())
+            else if (GetInstanceID() != Instance.GetInstanceID())
             {
                 Destroy(gameObject);
             }

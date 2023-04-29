@@ -90,7 +90,7 @@ namespace LudumDare53.Card
                     $"Decreate rage by {-x.Value}",
                 ActionType.INTIMIDATE => $"Target gain a \"Useless Mumble\" card",
                 ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
-                ActionType.CANT_ATTACK => $"Prevent to play damage cards for {x.Value} turns",
+                ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 _ => throw new NotImplementedException()
             }));
