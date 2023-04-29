@@ -30,7 +30,7 @@ I'm coming!
 COLOR:GREY
 NAME:???
 ...
-You take of it, good luck
+I have work to do, see you
 COLOR:BLUE
 NAME:"Didi"
 SPIRIT:BLUE
@@ -43,4 +43,3 @@ SHOW:NONE
 I didn't order that
 NAME:
 (Whatever the reason I must deliver this package if I don't want to get fired)
-END

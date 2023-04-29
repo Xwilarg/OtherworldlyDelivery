@@ -1,3 +1,4 @@
+using LudumDare53.Card;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,11 +58,15 @@ namespace LudumDare53.Dialogue
         private string[] _lines;
         private int _index;
 
+        private CardsManager _cardsManager;
+
         private void Awake()
         {
+            _cardsManager = GetComponent<CardsManager>();
             if (!_isEnabled)
             {
                 _textContainer.SetActive(false);
+                _cardsManager.SpawnCards();
                 return;
             }
             _gameUI.SetActive(false);
@@ -85,6 +90,7 @@ namespace LudumDare53.Dialogue
                 _bgm.clip = _gameClip;
                 _bgm.Play();
                 _bgm.time = pos;
+                _cardsManager.SpawnCards();
                 return;
             }
             while (true)

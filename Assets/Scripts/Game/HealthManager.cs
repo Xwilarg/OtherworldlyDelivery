@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LudumDare53.Effect;
+using UnityEngine;
 
 namespace LudumDare53.Game
 {
@@ -12,18 +13,21 @@ namespace LudumDare53.Game
         [SerializeField]
         private RectTransform _healthBar;
 
+        private HealthCursor _cursorScript;
+
         private int _currDamage;
 
         private void Awake()
         {
             Instance = this;
+            _cursorScript = _cursor.GetComponent<HealthCursor>();
         }
 
         public void TakeDamage(int amount)
         {
             _currDamage += amount;
             var pos = _currDamage * _healthBar.rect.width / 200f;
-            _cursor.anchoredPosition = new(pos, _cursor.anchoredPosition.y);
+            _cursorScript.MoveTo(pos);
         }
     }
 }
