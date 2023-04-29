@@ -201,7 +201,7 @@ namespace LudumDare53.Card
 
                     case ActionType.CANT_ATTACK:
                         if (_isNotAITurn) _attackCooldownAI = e.Value;
-                        else _attackCooldownPlayer = e.Value;
+                        else _attackCooldownPlayer = e.Value + 1;
                         break;
 
                     case ActionType.FORCE_ATTACK:
@@ -215,7 +215,7 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.NO_NEGATIVE_DAMAGE:
-                        if (_isNotAITurn) _noDrawbackCooldownPlayer = e.Value;
+                        if (_isNotAITurn) _noDrawbackCooldownPlayer = e.Value + 1;
                         else throw new NotImplementedException();
                         break;
 
@@ -225,7 +225,7 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.DAMAGE_BOOST:
-                        if (_isNotAITurn) _attackBoost = e.Value;
+                        if (_isNotAITurn) _attackBoost = e.Value + 1;
                         else throw new NotImplementedException();
                         break;
 
@@ -244,12 +244,12 @@ namespace LudumDare53.Card
                     RemoveCards();
                     if (_isNotAITurn)
                     {
-                        if (_attackCooldownPlayer > 0)
-                            _attackCooldownPlayer--;
                         AIManager.Instance.Play();
                     }
                     else
                     {
+                        if (_attackCooldownPlayer > 0)
+                            _attackCooldownPlayer--;
                         if (_attackCooldownAI > 0)
                             _attackCooldownAI--;
                         if (_attackForceCooldownAI > 0)
@@ -258,6 +258,8 @@ namespace LudumDare53.Card
                             _noDrawbackCooldownPlayer--;
                         if (_damageToRageCooldown > 0)
                             _damageToRageCooldown--;
+                        if (_attackBoost > 0)
+                            _attackBoost--;
                         SpawnCards();
                     }
                 });
