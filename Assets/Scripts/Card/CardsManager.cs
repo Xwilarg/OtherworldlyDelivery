@@ -37,7 +37,9 @@ namespace LudumDare53.Card
 
         private int _rage;
 
-        private bool _isAITurn;
+        private bool _isNotAITurn;
+
+        private int _attackCooldownPlayer, _attackCooldownAI;
 
         private void Awake()
         {
@@ -59,7 +61,7 @@ namespace LudumDare53.Card
 
         public void SpawnCards()
         {
-            var tmpDeck = new List<CardInfo>(_playerDeck);
+            var tmpDeck = new List<CardInfo>(FilterCards(_playerDeck));
             for (int i = 0; i < 3; i++)
             {
                 var index = Random.Range(0, tmpDeck.Count);
@@ -88,19 +90,30 @@ namespace LudumDare53.Card
                     $"Decreate rage by {-x.Value}",
                 ActionType.INTIMIDATE => $"Target gain a \"Useless Mumble\" card",
                 ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
+                ActionType.CANT_ATTACK => $"Prevent to play damage cards for {x.Value} turns",
+                ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 _ => throw new NotImplementedException()
             }));
         }
 
+        public CardInfo[] FilterCards(IEnumerable<CardInfo> cards)
+            => cards.Where(x =>
+            {
+                var targetCounter = _isNotAITurn ? _attackCooldownAI : _attackCooldownPlayer;
+                if (targetCounter > 0)
+                    return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
+                return true;
+            }).ToArray();
+
         public void DoAction(CardInfo card)
         {
-            _isAITurn = !_isAITurn;
+            _isNotAITurn = !_isNotAITurn;
             foreach (var e in card.Effects)
             {
                 switch (e.Type)
                 {
                     case ActionType.DAMAGE:
-                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -1 : (1 + _rage / 10)));
+                        HealthManager.Instance.TakeDamage(e.Value * (_isNotAITurn ? -1 : (1 + _rage / 10)));
                         break;
 
                     case ActionType.RAGE:
@@ -121,25 +134,39 @@ namespace LudumDare53.Card
                         _playerDeck.RemoveAt(index);
                         break;
 
+                    case ActionType.CANT_ATTACK:
+                        if (_isNotAITurn) _attackCooldownAI = e.Value;
+                        else _attackCooldownPlayer = e.Value;
+                        break;
+
+                    case ActionType.MAX_HEALTH:
+                        if (_isNotAITurn) HealthManager.Instance.ReduceAIMaxHealth(e.Value);
+                        else throw new NotImplementedException();
+                        break;
+
                     default:
                         throw new NotImplementedException();
                 }
             }
             if (!HealthManager.Instance.HasLost)
             {
-                DialogueManager.Instance.ShowText(_isAITurn ? string.Empty : "Divyansh", "BLUE", card.Sentence, () =>
+                DialogueManager.Instance.ShowText(_isNotAITurn ? string.Empty : "Divyansh", "BLUE", card.Sentence, () =>
                 {
                     if (HealthManager.Instance.HasLost)
                     {
                         return;
                     }
                     RemoveCards();
-                    if (_isAITurn)
+                    if (_isNotAITurn)
                     {
+                        if (_attackCooldownPlayer > 0)
+                            _attackCooldownPlayer--;
                         AIManager.Instance.Play();
                     }
                     else
                     {
+                        if (_attackCooldownAI > 0)
+                            _attackCooldownAI--;
                         SpawnCards();
                     }
                 });

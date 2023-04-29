@@ -18,7 +18,8 @@ namespace LudumDare53.NPC
 
         public void Play()
         {
-            var card = _cards[Random.Range(0, _cards.Length)];
+            var deck = CardsManager.Instance.FilterCards(_cards);
+            var card = deck[Random.Range(0, deck.Length)];
             CardsManager.Instance.SpawnAICard(card);
             CardsManager.Instance.DoAction(card);
         }

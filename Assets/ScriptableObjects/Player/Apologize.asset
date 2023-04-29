@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Apologize
   m_EditorClassIdentifier: 
   Title: Apologize
-  Sentence: If it's a mistake maybe we can solve it together
+  Sentence: If it's a mistake maybe we can work it out together
   Effects:
   - Type: 1
     Value: -25

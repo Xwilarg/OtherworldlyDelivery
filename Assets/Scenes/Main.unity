@@ -2908,7 +2908,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &808113354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,7 +3032,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &956046931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3244,7 +3244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a451835ad10de5a42b41bd2480cff91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnabled: 0
+  _isEnabled: 1
   _story: {fileID: 4900000, guid: 97e7496a02208e9409161f66bfca81b1, type: 3}
   _textContainer: {fileID: 790908902}
   _dialogueText: {fileID: 1755703626}
@@ -3376,6 +3376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cursor: {fileID: 1430503148}
   _baseBGM: {fileID: 8300000, guid: ce66d40fd376667418f64bf44238277d, type: 3}
+  _aiHealthBar: {fileID: 956046930}
 --- !u!114 &1163326571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3394,6 +3395,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae15719978402884ab3e4c164b3fbd57, type: 2}
   - {fileID: 11400000, guid: e2393eb2bf0d1d14489083c5f9269619, type: 2}
   - {fileID: 11400000, guid: d630aac7a41e2864bab5e857837c197c, type: 2}
+  - {fileID: 11400000, guid: 118555f2acf70ac4480db0f8d81bd8bf, type: 2}
+  - {fileID: 11400000, guid: 644628141fc85a043956f235c5d32b91, type: 2}
   _uselessMumble: {fileID: 11400000, guid: 62606207184fb7b45b26be8c11e3fb5f, type: 2}
   _cardAIPos: {fileID: 1151268901}
   _rageText: {fileID: 2056875687}
@@ -3412,6 +3415,7 @@ MonoBehaviour:
   _cards:
   - {fileID: 11400000, guid: 5cb37ca944c263845959b5b5949d9e23, type: 2}
   - {fileID: 11400000, guid: c686788721284934fb03fadc8e245f31, type: 2}
+  - {fileID: 11400000, guid: 70019ceaff3f03c458ccc70d5d41be9b, type: 2}
 --- !u!1 &1430503147
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@
         DAMAGE,
         RAGE,
         INTIMIDATE,
-        DESTROY_ON_DISCARD
+        DESTROY_ON_DISCARD,
+        CANT_ATTACK,
+        MAX_HEALTH
     }
 }

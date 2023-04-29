@@ -16,4 +16,4 @@ MonoBehaviour:
   Sentence: Your address is on the package
   Effects:
   - Type: 0
-    Value: 5
+    Value: 10

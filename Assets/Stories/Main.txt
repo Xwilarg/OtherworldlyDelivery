@@ -42,4 +42,4 @@ SHOW:MAG
 SHOW:NONE
 I didn't order that
 NAME:
-(Whatever the reason I must deliver this package if I don't want to get fired)
+(Whatever the reason is, I must deliver this package if I don't want to get fired)
