@@ -5,7 +5,9 @@ namespace LudumDare53.SO
     [CreateAssetMenu(menuName = "ScriptableObject/CardInfo", fileName = "CardInfo")]
     public class CardInfo : ScriptableObject
     {
+        public string Title;
         public string Sentence;
-        public int Damage;
+        public int Value;
+        public ActionType Type;
     }
 }
