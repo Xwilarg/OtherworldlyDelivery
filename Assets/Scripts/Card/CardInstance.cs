@@ -26,6 +26,7 @@ namespace LudumDare53.Card
 
         public void OnClick()
         {
+            CardsManager.Instance.RemoveCards();
             CardsManager.Instance.DoAction(Info);
         }
     }

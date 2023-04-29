@@ -4,6 +4,7 @@ using LudumDare53.NPC;
 using LudumDare53.SO;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace LudumDare53.Card
@@ -19,7 +20,10 @@ namespace LudumDare53.Card
         private GameObject _cardPrefab;
 
         [SerializeField]
-        private CardInfo[] _cards;
+        private CardInfo[] _playerCards;
+
+        [SerializeField]
+        private RectTransform _cardAIPos;
 
         private bool _isAITurn;
 
@@ -34,6 +38,10 @@ namespace LudumDare53.Card
             {
                 Destroy(_cardContainer.GetChild(i).gameObject);
             }
+            for (var i = 0; i < _cardAIPos.childCount; i++)
+            {
+                Destroy(_cardAIPos.GetChild(i).gameObject);
+            }
         }
 
         public void SpawnCards()
@@ -41,8 +49,15 @@ namespace LudumDare53.Card
             for (int i = 0; i < 3; i++)
             {
                 var go = Instantiate(_cardPrefab, _cardContainer);
-                go.GetComponent<CardInstance>().Info = _cards[Random.Range(0, _cards.Length)];
+                go.GetComponent<CardInstance>().Info = _playerCards[Random.Range(0, _playerCards.Length)];
             }
+        }
+
+        public void SpawnAICard(CardInfo card)
+        {
+            var go = Instantiate(_cardPrefab, _cardAIPos);
+            go.GetComponent<CardInstance>().Info = card;
+            go.GetComponent<Button>().interactable = false;
         }
 
         public void DoAction(CardInfo card)
@@ -57,9 +72,9 @@ namespace LudumDare53.Card
                 default:
                     throw new NotImplementedException();
             }
-            RemoveCards();
             DialogueManager.Instance.ShowText(string.Empty, "NONE", card.Sentence, () =>
             {
+                RemoveCards();
                 if (_isAITurn)
                 {
                     AIManager.Instance.Play();
