@@ -10,9 +10,6 @@ namespace LudumDare53.Game
         [SerializeField]
         private RectTransform _cursor;
 
-        [SerializeField]
-        private RectTransform _healthBar;
-
         private HealthCursor _cursorScript;
 
         private int _currDamage;
@@ -26,7 +23,7 @@ namespace LudumDare53.Game
         public void TakeDamage(int amount)
         {
             _currDamage += amount;
-            var pos = _currDamage * _healthBar.rect.width / 200f;
+            var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
         }
     }

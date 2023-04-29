@@ -19,6 +19,7 @@ namespace LudumDare53.Card
                 _info = value;
                 _title.text = value.Title;
                 _content.text = "Content Text";
+                CardsManager.Instance.ShowText(value.Sentence);
             }
             get => _info;
         }

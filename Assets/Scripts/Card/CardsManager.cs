@@ -1,4 +1,5 @@
 ﻿using LudumDare53.SO;
+using TMPro;
 using UnityEngine;
 
 namespace LudumDare53.Card
@@ -16,9 +17,32 @@ namespace LudumDare53.Card
         [SerializeField]
         private CardInfo[] _cards;
 
+        [SerializeField]
+        private TMP_Text _dialogueText;
+
+        private float _timerText;
+
         private void Awake()
         {
             Instance = this;
+        }
+
+        public void ShowText(string text)
+        {
+            _dialogueText.text = text;
+            _timerText = 2f;
+        }
+
+        private void Update()
+        {
+            if (_timerText > 0f)
+            {
+                _timerText -= Time.deltaTime;
+                if (_timerText <= 0f)
+                {
+                    _dialogueText.text = string.Empty;
+                }
+            }
         }
 
         public void SpawnCards()
