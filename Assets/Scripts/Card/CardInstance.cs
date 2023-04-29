@@ -1,7 +1,4 @@
-﻿using LudumDare53.Dialogue;
-using LudumDare53.Game;
-using LudumDare53.SO;
-using System;
+﻿using LudumDare53.SO;
 using TMPro;
 using UnityEngine;
 
@@ -19,7 +16,7 @@ namespace LudumDare53.Card
             {
                 _info = value;
                 _title.text = value.Title;
-                _content.text = "Content Text";
+                _content.text = CardsManager.Instance.GetDescription(value);
             }
             get => _info;
         }

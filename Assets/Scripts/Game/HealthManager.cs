@@ -22,7 +22,7 @@ namespace LudumDare53.Game
 
         public void TakeDamage(int amount)
         {
-            _currDamage += amount;
+            _currDamage -= amount;
             var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
         }

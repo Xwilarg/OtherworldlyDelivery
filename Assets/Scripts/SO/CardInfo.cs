@@ -7,7 +7,6 @@ namespace LudumDare53.SO
     {
         public string Title;
         public string Sentence;
-        public int Value;
-        public ActionType Type;
+        public CardEffect[] Effects;
     }
 }

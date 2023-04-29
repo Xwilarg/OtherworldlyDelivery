@@ -3,6 +3,8 @@ using LudumDare53.Game;
 using LudumDare53.NPC;
 using LudumDare53.SO;
 using System;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -60,17 +62,29 @@ namespace LudumDare53.Card
             go.GetComponent<Button>().interactable = false;
         }
 
+        public string GetDescription(CardInfo card)
+        {
+            return string.Join("\n", card.Effects.Select(x => x.Type switch
+            {
+                ActionType.DAMAGE => $"Inflict {x.Value} damage",
+                _ => throw new NotImplementedException()
+            }));
+        }
+
         public void DoAction(CardInfo card)
         {
             _isAITurn = !_isAITurn;
-            switch (card.Type)
+            foreach (var e in card.Effects)
             {
-                case ActionType.DAMAGE:
-                    HealthManager.Instance.TakeDamage(card.Value);
-                    break;
+                switch (e.Type)
+                {
+                    case ActionType.DAMAGE:
+                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -1 : 1));
+                        break;
 
-                default:
-                    throw new NotImplementedException();
+                    default:
+                        throw new NotImplementedException();
+                }
             }
             DialogueManager.Instance.ShowText(string.Empty, "NONE", card.Sentence, () =>
             {

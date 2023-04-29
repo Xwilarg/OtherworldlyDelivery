@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Hasty Generalization
   Sentence: Of course a god would never order something like that
-  Value: -10
-  Type: 0
+  Effects:
+  - Type: 0
+    Value: 10

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Sound Argument
   Sentence: Your name is on the package
-  Value: 5
-  Type: 0
+  Effects:
+  - Type: 0
+    Value: 5
