@@ -2533,6 +2533,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 47315945}
+  - {fileID: 1614766470}
   m_Father: {fileID: 1014269742}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2644,7 +2645,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 790908903}
-  - {fileID: 1614766470}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2690,6 +2690,8 @@ MonoBehaviour:
   _sprites:
   - Name: PACKAGE
     Sprite: {fileID: 21300000, guid: eb00b16a3ca406c498d69ac64e31c64b, type: 3}
+  - Name: MAG
+    Sprite: {fileID: 21300000, guid: 9599368e362b58c458841a20cfb84d1d, type: 3}
   _door: {fileID: 399559705}
   _openedDoor: {fileID: 21300000, guid: b0dae1b21797a7747a8f4347d0b57719, type: 3}
   _preview: {fileID: 1614766469}
@@ -2821,13 +2823,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614766469}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 195796777}
-  m_Father: {fileID: 1014269742}
+  m_Father: {fileID: 790908903}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

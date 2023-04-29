@@ -21,4 +21,24 @@ Didi! A package for you
 ...
 Aren't you curious of what is inside?
 Let's open it, he won't mind
+SHOW:MAG
+...
+SHOW:NONE
+COLOR:BLUE
+NAME:"Didi"
+I'm coming!
+COLOR:GREY
+NAME:???
+...
+You take of it, good luck
+COLOR:BLUE
+NAME:"Didi"
+SPIRIT:BLUE
+Hey, you're the new courrier?
+NAME:Divyansh
+Welcome, my name is Divyansh, I heard you have something for-
+SHOW:MAG
+...
+SHOW:NONE
+I didn't order that
 END

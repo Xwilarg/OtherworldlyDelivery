@@ -51,7 +51,8 @@ namespace LudumDare53.Dialogue
 
         private readonly Dictionary<string, Color> _colors = new()
         {
-            { "GREY", Color.grey }
+            { "GREY", Color.grey },
+            { "BLUE", Color.blue }
         };
 
         public void ShowNext()
