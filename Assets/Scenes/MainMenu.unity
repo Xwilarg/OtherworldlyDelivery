@@ -2820,7 +2820,10 @@ MonoBehaviour:
     - 2D Art: MS Paint and
     Paint.NET
 
-    - Audio: beepbox.co'
+    - Audio: beepbox.co
+
+
+    Special thanks to TheIndra'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 44c45768c67c3f0439b25d6e16f04a24, type: 2}
   m_sharedMaterial: {fileID: 4265616373117451030, guid: 44c45768c67c3f0439b25d6e16f04a24, type: 2}
