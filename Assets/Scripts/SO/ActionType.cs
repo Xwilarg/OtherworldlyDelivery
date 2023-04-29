@@ -7,6 +7,7 @@
         INTIMIDATE,
         DESTROY_ON_DISCARD,
         CANT_ATTACK,
-        MAX_HEALTH
+        MAX_HEALTH,
+        NO_NEGATIVE_DAMAGE
     }
 }

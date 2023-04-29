@@ -40,6 +40,7 @@ namespace LudumDare53.Card
         private bool _isNotAITurn;
 
         private int _attackCooldownPlayer, _attackCooldownAI;
+        private int _noDrawbackCooldownPlayer;
 
         private void Awake()
         {
@@ -82,9 +83,10 @@ namespace LudumDare53.Card
         {
             return string.Join("\n", card.Effects.Select(x => x.Type switch
             {
-                ActionType.DAMAGE => x.Value > 0 ?
-                    $"Inflict {x.Value} damage" :
-                    $"Take {-x.Value} damage",
+                ActionType.DAMAGE => 
+                x.Value > 0 ?
+                    $"Inflict {(_isNotAITurn && _rage > 0 ? $"<color=red>{x.Value * _rage / 10}</color>" : x.Value)} damage" :
+                    $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
                     $"Decreate rage by {-x.Value}",
@@ -92,6 +94,7 @@ namespace LudumDare53.Card
                 ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
                 ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
+                ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
                 _ => throw new NotImplementedException()
             }));
         }
@@ -110,6 +113,8 @@ namespace LudumDare53.Card
             _isNotAITurn = !_isNotAITurn;
             foreach (var e in card.Effects)
             {
+                if (_isNotAITurn && _noDrawbackCooldownPlayer > 0 && e.Type == ActionType.DAMAGE && e.Value < 0)
+                    continue;
                 switch (e.Type)
                 {
                     case ActionType.DAMAGE:
@@ -144,6 +149,11 @@ namespace LudumDare53.Card
                         else throw new NotImplementedException();
                         break;
 
+                    case ActionType.NO_NEGATIVE_DAMAGE:
+                        if (_isNotAITurn) _noDrawbackCooldownPlayer = e.Value;
+                        else throw new NotImplementedException();
+                        break;
+
                     default:
                         throw new NotImplementedException();
                 }
@@ -161,6 +171,8 @@ namespace LudumDare53.Card
                     {
                         if (_attackCooldownPlayer > 0)
                             _attackCooldownPlayer--;
+                        if (_noDrawbackCooldownPlayer > 0)
+                            _noDrawbackCooldownPlayer--;
                         AIManager.Instance.Play();
                     }
                     else
