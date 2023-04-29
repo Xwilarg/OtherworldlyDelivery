@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e51921479083b55468b1d547d80be2f2, type: 3}
-  m_Name: Hasty Generalization
+  m_Name: Middle Ground
   m_EditorClassIdentifier: 
-  Title: Hasty Generalization
-  Sentence: Of course a god would never order something like that
+  Title: Middle Ground
+  Sentence: Maybe I ordered this but it wasn't this item on the site
   Effects:
   - Type: 0
-    Value: 5
+    Value: 15
   - Type: 1
-    Value: 5
+    Value: -10

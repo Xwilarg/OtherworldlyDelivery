@@ -135,8 +135,12 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.DESTROY_ON_DISCARD:
-                        var index = _playerDeck.IndexOf(card);
-                        _playerDeck.RemoveAt(index);
+                        if (_isNotAITurn)
+                        {
+                            var index = _playerDeck.IndexOf(card);
+                            _playerDeck.RemoveAt(index);
+                        }
+                        else AIManager.Instance.UseSpe();
                         break;
 
                     case ActionType.CANT_ATTACK:
