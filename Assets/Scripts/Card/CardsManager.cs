@@ -78,7 +78,9 @@ namespace LudumDare53.Card
                 ActionType.DAMAGE => x.Value > 0 ?
                     $"Inflict {x.Value} damage" :
                     $"Take {-x.Value} damage",
-                ActionType.RAGE => $"Increase rage by {x.Value}",
+                ActionType.RAGE => x.Value > 0 ?
+                    $"Increase rage by {x.Value}" :
+                    $"Decreate rage by {-x.Value}",
                 ActionType.INTIMIDATE => $"Target gain a \"Useless Mumble\" card",
                 ActionType.DESTROY_ON_DISCARD => "Destroyed when used",
                 _ => throw new NotImplementedException()
@@ -93,7 +95,7 @@ namespace LudumDare53.Card
                 switch (e.Type)
                 {
                     case ActionType.DAMAGE:
-                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -(1 + _rage) : 1));
+                        HealthManager.Instance.TakeDamage(e.Value * (_isAITurn ? -1 : (1 + _rage / 10)));
                         break;
 
                     case ActionType.RAGE:
@@ -118,7 +120,7 @@ namespace LudumDare53.Card
                         throw new NotImplementedException();
                 }
             }
-            DialogueManager.Instance.ShowText(string.Empty, "NONE", card.Sentence, () =>
+            DialogueManager.Instance.ShowText(_isAITurn ? "Divyansh" : string.Empty, "BLUE", card.Sentence, () =>
             {
                 RemoveCards();
                 if (_isAITurn)

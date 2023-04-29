@@ -3375,6 +3375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursor: {fileID: 1430503148}
+  _baseBGM: {fileID: 8300000, guid: ce66d40fd376667418f64bf44238277d, type: 3}
 --- !u!114 &1163326571
 MonoBehaviour:
   m_ObjectHideFlags: 0

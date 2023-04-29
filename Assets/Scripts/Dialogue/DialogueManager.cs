@@ -69,7 +69,6 @@ namespace LudumDare53.Dialogue
             if (!_isEnabled)
             {
                 _textContainer.SetActive(false);
-                _cardsManager.SpawnCards();
                 return;
             }
             _callback = () =>
@@ -80,6 +79,14 @@ namespace LudumDare53.Dialogue
             _gameUI.SetActive(false);
             _lines = _story.text.Replace("\r", "").Split('\n', StringSplitOptions.RemoveEmptyEntries);
             ShowNext();
+        }
+
+        private void Start()
+        {
+            if (!_isEnabled)
+            {
+                _cardsManager.SpawnCards();
+            }
         }
 
         private readonly Dictionary<string, Color> _colors = new()

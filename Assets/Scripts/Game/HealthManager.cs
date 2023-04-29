@@ -1,5 +1,8 @@
-﻿using LudumDare53.Effect;
+﻿using LudumDare53.Audio;
+using LudumDare53.Dialogue;
+using LudumDare53.Effect;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace LudumDare53.Game
 {
@@ -9,6 +12,9 @@ namespace LudumDare53.Game
 
         [SerializeField]
         private RectTransform _cursor;
+
+        [SerializeField]
+        private AudioClip _baseBGM;
 
         private HealthCursor _cursorScript;
 
@@ -25,6 +31,22 @@ namespace LudumDare53.Game
             _currDamage -= amount;
             var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
+            if (pos < .5f)
+            {
+                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
+                {
+                    SceneManager.LoadScene("MainMenu");
+                });
+                BGMManager.Instance.SetBGM(_baseBGM);
+            }
+            else if (pos > .5f)
+            {
+                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "See, I told you it's not mine, so now just go! Leave the package here tho, as a compensation, so I can... burn it", () =>
+                {
+                    SceneManager.LoadScene("MainMenu");
+                });
+                BGMManager.Instance.SetBGM(_baseBGM);
+            }
         }
     }
 }
