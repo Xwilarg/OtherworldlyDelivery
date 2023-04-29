@@ -199,7 +199,7 @@ namespace LudumDare53.Card
                         else AIManager.Instance.UseSpe();
                         break;
 
-                    case ActionType.CANT_ATTACK:
+                    case ActionType.CANT_ATTACK: // Debuff that will be applied to the player need to have their counter increased by 1 because of how the debuff system is handled
                         if (_isNotAITurn) _attackCooldownAI = e.Value;
                         else _attackCooldownPlayer = e.Value + 1;
                         break;
@@ -260,6 +260,7 @@ namespace LudumDare53.Card
                             _damageToRageCooldown--;
                         if (_attackBoost > 0)
                             _attackBoost--;
+                        AIManager.Instance.NextTurn();
                         SpawnCards();
                     }
                 });
