@@ -22,6 +22,8 @@ namespace LudumDare53.Game
         private HealthCursor _cursorScript;
 
         private int _currDamage;
+        private int _prevMaxHealth = 100;
+        private float _maxHealthTimer;
         private int _aiMaxHealth = 100;
 
         public bool HasLost { private set; get; }
@@ -34,8 +36,9 @@ namespace LudumDare53.Game
 
         public void ReduceAIMaxHealth(int amount)
         {
+            _prevMaxHealth = _aiMaxHealth;
             _aiMaxHealth -= amount;
-            _aiHealthBar.localScale = new(_aiMaxHealth / 100f, _aiHealthBar.localScale.y, _aiHealthBar.localScale.z);
+            _maxHealthTimer = 0f;
         }
 
         public void TakeDamage(int amount)
@@ -61,6 +64,12 @@ namespace LudumDare53.Game
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
+        }
+
+        private void Update()
+        {
+            _maxHealthTimer += Time.deltaTime * 10f;
+            _aiHealthBar.localScale = new(Mathf.Lerp(_prevMaxHealth, _aiMaxHealth, Mathf.Clamp01(_maxHealthTimer)) / 100f, _aiHealthBar.localScale.y, _aiHealthBar.localScale.z);
         }
     }
 }

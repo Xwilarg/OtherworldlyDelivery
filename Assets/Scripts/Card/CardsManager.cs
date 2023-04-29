@@ -84,7 +84,7 @@ namespace LudumDare53.Card
             return string.Join("\n", card.Effects.Select(x => x.Type switch
             {
                 ActionType.DAMAGE => 
-                x.Value > 0 ?
+                x.Value > 0 ? // _isNotAITurn have the opposite value here, uh
                     $"Inflict {(_isNotAITurn && _rage > 0 ? $"<color=red>{x.Value * _rage / 10}</color>" : x.Value)} damage" :
                     $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.RAGE => x.Value > 0 ?
@@ -171,14 +171,14 @@ namespace LudumDare53.Card
                     {
                         if (_attackCooldownPlayer > 0)
                             _attackCooldownPlayer--;
-                        if (_noDrawbackCooldownPlayer > 0)
-                            _noDrawbackCooldownPlayer--;
                         AIManager.Instance.Play();
                     }
                     else
                     {
                         if (_attackCooldownAI > 0)
                             _attackCooldownAI--;
+                        if (_noDrawbackCooldownPlayer > 0)
+                            _noDrawbackCooldownPlayer--;
                         SpawnCards();
                     }
                 });
