@@ -12,6 +12,7 @@ DOOR:OPEN
 SPIRIT:GREY
 COLOR:GREY
 NAME:???
+SFX:DOOR
 Hey, welcome!
 Why such a long face, never saw a spirit?
 NAME:Diett
@@ -36,6 +37,7 @@ I have work to do, see you
 COLOR:BLUE
 NAME:"Didi"
 SPIRIT:BLUE
+SFX:WALK
 Hey, you're the new courrier?
 NAME:Divyansh
 Welcome, my name is Divyansh, I heard you have something for-

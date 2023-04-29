@@ -3269,6 +3269,10 @@ MonoBehaviour:
     Sprite: {fileID: 8300000, guid: c7f4cd8cf64af0749b05dce040d2092e, type: 3}
   - Name: OPENBOX
     Sprite: {fileID: 8300000, guid: 07556c54b134fb7448dba1ad39437e69, type: 3}
+  - Name: DOOR
+    Sprite: {fileID: 8300000, guid: 9bec43e40566de64eab59fcad4364ec4, type: 3}
+  - Name: WALK
+    Sprite: {fileID: 8300000, guid: d24fd3829cd5301449892458d6253bb9, type: 3}
   _door: {fileID: 399559705}
   _openedDoor: {fileID: 21300000, guid: b0dae1b21797a7747a8f4347d0b57719, type: 3}
   _preview: {fileID: 1614766469}
