@@ -17,40 +17,21 @@ namespace LudumDare53.Card
         [SerializeField]
         private CardInfo[] _cards;
 
-        [SerializeField]
-        private TMP_Text _dialogueText;
-
-        private float _timerText;
-
         private void Awake()
         {
             Instance = this;
         }
 
-        public void ShowText(string text)
-        {
-            _dialogueText.text = text;
-            _timerText = 2f;
-        }
-
-        private void Update()
-        {
-            if (_timerText > 0f)
-            {
-                _timerText -= Time.deltaTime;
-                if (_timerText <= 0f)
-                {
-                    _dialogueText.text = string.Empty;
-                }
-            }
-        }
-
-        public void SpawnCards()
+        public void RemoveCards()
         {
             for (var i = 0; i < _cardContainer.childCount; i++)
             {
                 Destroy(_cardContainer.GetChild(i).gameObject);
             }
+        }
+
+        public void SpawnCards()
+        {
             for (int i = 0; i < 3; i++)
             {
                 var go = Instantiate(_cardPrefab, _cardContainer);

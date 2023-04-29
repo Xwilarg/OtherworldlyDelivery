@@ -1,4 +1,5 @@
-﻿using LudumDare53.Game;
+﻿using LudumDare53.Dialogue;
+using LudumDare53.Game;
 using LudumDare53.SO;
 using System;
 using TMPro;
@@ -19,7 +20,6 @@ namespace LudumDare53.Card
                 _info = value;
                 _title.text = value.Title;
                 _content.text = "Content Text";
-                CardsManager.Instance.ShowText(value.Sentence);
             }
             get => _info;
         }
@@ -35,7 +35,8 @@ namespace LudumDare53.Card
                 default:
                     throw new NotImplementedException();
             }
-            CardsManager.Instance.SpawnCards();
+            DialogueManager.Instance.ShowText(string.Empty, "NONE", _info.Sentence);
+            CardsManager.Instance.RemoveCards();
         }
     }
 }

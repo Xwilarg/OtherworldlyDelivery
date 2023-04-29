@@ -11,6 +11,8 @@ namespace LudumDare53.Dialogue
 {
     public class DialogueManager : MonoBehaviour
     {
+        public static DialogueManager Instance { get; private set; }
+
         [Header("Debug")]
         [SerializeField]
         private bool _isEnabled;
@@ -62,6 +64,7 @@ namespace LudumDare53.Dialogue
 
         private void Awake()
         {
+            Instance = this;
             _cardsManager = GetComponent<CardsManager>();
             if (!_isEnabled)
             {
@@ -77,8 +80,23 @@ namespace LudumDare53.Dialogue
         private readonly Dictionary<string, Color> _colors = new()
         {
             { "GREY", Color.grey },
-            { "BLUE", Color.blue }
+            { "BLUE", Color.blue },
+            { "NONE", Color.black }
         };
+
+        public void ShowText(string name, string color, string text)
+        {
+            _textContainer.SetActive(true);
+            _isEnabled = true;
+            _lines = new[]
+            {
+                $"NAME:{name}",
+                $"COLOR:{color}",
+                text
+            };
+            _index = 0;
+            ShowNext();
+        }
 
         public void ShowNext()
         {
