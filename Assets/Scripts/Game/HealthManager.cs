@@ -65,6 +65,10 @@ namespace LudumDare53.Game
             }
         }
 
+#if UNITY_EDITOR
+        public int Health => _currDamage;
+#endif
+
         private void Update()
         {
             _maxHealthTimer += Time.deltaTime * 10f;

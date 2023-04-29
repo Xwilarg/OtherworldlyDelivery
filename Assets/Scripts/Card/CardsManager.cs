@@ -154,6 +154,10 @@ namespace LudumDare53.Card
                             {
                                 value /= 2;
                                 _rage -= value;
+                                if (_rage < 0)
+                                {
+                                    _rage = 0;
+                                }
                             }
                         }
                         else
@@ -164,6 +168,9 @@ namespace LudumDare53.Card
                                 value *= 2;
                             }
                         }
+#if UNITY_EDITOR
+                        Debug.Log($"Taking {value} damage from a base of {HealthManager.Instance.Health}");
+#endif
                         HealthManager.Instance.TakeDamage(value);
                         break;
 
