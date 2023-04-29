@@ -1,0 +1,24 @@
+NAME:
+Okay... This is my first time at this job...
+Let's review the basics...
+SHOW:PACKAGE
+D. J. Walden, God of Judgement... 1034th floor...
+Okay it's here
+SHOW:NONE
+*Knock Knock*
+...
+DOOR:OPEN
+SPIRIT:GREY
+COLOR:GREY
+NAME:???
+Hey, welcome!
+Why such a long face, never saw a spirit?
+NAME:Diett
+I'm Diett, guardian of the Purgatory
+Anyway, what do we have here...
+Ah it's for the boss
+Didi! A package for you
+...
+Aren't you curious of what is inside?
+Let's open it, he won't mind
+END
