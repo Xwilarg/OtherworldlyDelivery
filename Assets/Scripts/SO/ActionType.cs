@@ -8,6 +8,8 @@
         DESTROY_ON_DISCARD,
         CANT_ATTACK,
         MAX_HEALTH,
-        NO_NEGATIVE_DAMAGE
+        NO_NEGATIVE_DAMAGE,
+        DEFLECT_ON_RAGE,
+        FORCE_ATTACK
     }
 }

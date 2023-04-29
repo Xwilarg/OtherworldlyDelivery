@@ -39,8 +39,9 @@ namespace LudumDare53.Card
 
         private bool _isNotAITurn;
 
-        private int _attackCooldownPlayer, _attackCooldownAI;
+        private int _attackCooldownPlayer, _attackCooldownAI, _attackForceCooldownAI;
         private int _noDrawbackCooldownPlayer;
+        private int _damageToRageCooldown;
 
         private void Awake()
         {
@@ -79,13 +80,26 @@ namespace LudumDare53.Card
             go.GetComponent<Button>().interactable = false;
         }
 
+        string GetAttackColor(int value)
+        {
+            if (_isNotAITurn)
+            {
+                var modValue = value * _rage / 10;
+                if (_damageToRageCooldown > 0)
+                    return $"<color=green>{modValue / 2}</color>";
+                else if (_rage > 0)
+                    return $"<color=red>{modValue}</color>";
+            }
+            return $"{value}";
+        }
+
         public string GetDescription(CardInfo card)
         {
             return string.Join("\n", card.Effects.Select(x => x.Type switch
             {
                 ActionType.DAMAGE => 
                 x.Value > 0 ? // _isNotAITurn have the opposite value here, uh
-                    $"Inflict {(_isNotAITurn && _rage > 0 ? $"<color=red>{x.Value * _rage / 10}</color>" : x.Value)} damage" :
+                    $"Inflict {GetAttackColor(x.Value)} damage" :
                     $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
@@ -95,6 +109,8 @@ namespace LudumDare53.Card
                 ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
+                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} are halved and reduce the rage",
+                ActionType.FORCE_ATTACK => $"Force target to play damage cards for {x.Value} turns",
                 _ => throw new NotImplementedException()
             }));
         }
@@ -102,9 +118,12 @@ namespace LudumDare53.Card
         public CardInfo[] FilterCards(IEnumerable<CardInfo> cards)
             => cards.Where(x =>
             {
+
                 var targetCounter = _isNotAITurn ? _attackCooldownAI : _attackCooldownPlayer;
                 if (targetCounter > 0)
-                    return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
+                    return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0) && !x.Effects.Any(x => x.Type == ActionType.CANT_ATTACK);
+                if (_attackForceCooldownAI > 0 && !_isNotAITurn)
+                    return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
                 return true;
             }).ToArray();
 
@@ -118,7 +137,21 @@ namespace LudumDare53.Card
                 switch (e.Type)
                 {
                     case ActionType.DAMAGE:
-                        HealthManager.Instance.TakeDamage(e.Value * (_isNotAITurn ? -1 : (1 + _rage / 10)));
+                        var value = e.Value;
+                        if (!_isNotAITurn)
+                        {
+                            value += 1 + _rage / 10;
+                            if (_damageToRageCooldown > 0)
+                            {
+                                value /= 2;
+                                _rage -= value;
+                            }
+                        }
+                        else
+                        {
+                            value *= -1;
+                        }
+                        HealthManager.Instance.TakeDamage(value);
                         break;
 
                     case ActionType.RAGE:
@@ -148,6 +181,11 @@ namespace LudumDare53.Card
                         else _attackCooldownPlayer = e.Value;
                         break;
 
+                    case ActionType.FORCE_ATTACK:
+                        if (_isNotAITurn) _attackForceCooldownAI = e.Value;
+                        else throw new NotImplementedException();
+                        break;
+
                     case ActionType.MAX_HEALTH:
                         if (_isNotAITurn) HealthManager.Instance.ReduceAIMaxHealth(e.Value);
                         else throw new NotImplementedException();
@@ -155,6 +193,11 @@ namespace LudumDare53.Card
 
                     case ActionType.NO_NEGATIVE_DAMAGE:
                         if (_isNotAITurn) _noDrawbackCooldownPlayer = e.Value;
+                        else throw new NotImplementedException();
+                        break;
+
+                    case ActionType.DEFLECT_ON_RAGE:
+                        if (_isNotAITurn) _damageToRageCooldown = e.Value;
                         else throw new NotImplementedException();
                         break;
 
@@ -175,12 +218,16 @@ namespace LudumDare53.Card
                     {
                         if (_attackCooldownPlayer > 0)
                             _attackCooldownPlayer--;
+                        if (_damageToRageCooldown > 0)
+                            _damageToRageCooldown--;
                         AIManager.Instance.Play();
                     }
                     else
                     {
                         if (_attackCooldownAI > 0)
                             _attackCooldownAI--;
+                        if (_attackForceCooldownAI > 0)
+                            _attackForceCooldownAI--;
                         if (_noDrawbackCooldownPlayer > 0)
                             _noDrawbackCooldownPlayer--;
                         SpawnCards();

@@ -3418,6 +3418,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 644628141fc85a043956f235c5d32b91, type: 2}
   - {fileID: 11400000, guid: f0b20b7ac02f97f4280e4c306c961ff4, type: 2}
   - {fileID: 11400000, guid: 75f55b1340c275f4da581af611364281, type: 2}
+  - {fileID: 11400000, guid: cce72a0329644d940b3d78308f271bf8, type: 2}
+  - {fileID: 11400000, guid: 39caf4cd51345344d807b5be2d7fc675, type: 2}
   _uselessMumble: {fileID: 11400000, guid: 62606207184fb7b45b26be8c11e3fb5f, type: 2}
   _cardAIPos: {fileID: 1151268901}
   _rageText: {fileID: 2056875687}
