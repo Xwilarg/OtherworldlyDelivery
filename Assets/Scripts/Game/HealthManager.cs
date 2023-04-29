@@ -20,6 +20,8 @@ namespace LudumDare53.Game
 
         private int _currDamage;
 
+        public bool HasLost { private set; get; }
+
         private void Awake()
         {
             Instance = this;
@@ -31,17 +33,19 @@ namespace LudumDare53.Game
             _currDamage -= amount;
             var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
-            if (pos < .5f)
+            if (_currDamage < -1)
             {
-                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
+                HasLost = true;
+                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "See, I told you it's not mine, so now just go! Leave the package here tho, as a compensation, so I can... burn it", () =>
                 {
                     SceneManager.LoadScene("MainMenu");
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
-            else if (pos > .5f)
+            else if (_currDamage > 100)
             {
-                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "See, I told you it's not mine, so now just go! Leave the package here tho, as a compensation, so I can... burn it", () =>
+                HasLost = true;
+                DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
                 {
                     SceneManager.LoadScene("MainMenu");
                 });

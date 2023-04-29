@@ -120,18 +120,25 @@ namespace LudumDare53.Card
                         throw new NotImplementedException();
                 }
             }
-            DialogueManager.Instance.ShowText(_isAITurn ? "Divyansh" : string.Empty, "BLUE", card.Sentence, () =>
+            if (!HealthManager.Instance.HasLost)
             {
-                RemoveCards();
-                if (_isAITurn)
+                DialogueManager.Instance.ShowText(_isAITurn ? string.Empty : "Divyansh", "BLUE", card.Sentence, () =>
                 {
-                    AIManager.Instance.Play();
-                }
-                else
-                {
-                    SpawnCards();
-                }
-            });
+                    if (HealthManager.Instance.HasLost)
+                    {
+                        return;
+                    }
+                    RemoveCards();
+                    if (_isAITurn)
+                    {
+                        AIManager.Instance.Play();
+                    }
+                    else
+                    {
+                        SpawnCards();
+                    }
+                });
+            }
         }
     }
 }

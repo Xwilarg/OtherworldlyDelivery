@@ -1,4 +1,5 @@
-﻿using LudumDare53.SO;
+﻿using LudumDare53.Game;
+using LudumDare53.SO;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +24,10 @@ namespace LudumDare53.Card
 
         public void OnClick()
         {
+            if (HealthManager.Instance.HasLost)
+            {
+                return;
+            }
             CardsManager.Instance.RemoveCards();
             CardsManager.Instance.DoAction(Info);
         }
