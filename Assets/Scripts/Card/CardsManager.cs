@@ -80,17 +80,17 @@ namespace LudumDare53.Card
             go.GetComponent<Button>().interactable = false;
         }
 
-        string GetAttackColor(int value)
+        string GetAttackText(int value)
         {
             if (_isNotAITurn)
             {
-                var modValue = value * _rage / 10;
+                var modValue = value * (1 + _rage / 10);
                 if (_damageToRageCooldown > 0)
-                    return $"<color=green>{modValue / 2}</color>";
+                    return $"Inflict <color=green>{modValue / 2}</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
                 else if (_rage > 0)
-                    return $"<color=red>{modValue}</color>";
+                    return $"Inflict <color=red>{modValue}</color> damage";
             }
-            return $"{value}";
+            return $"Inflict {value} damage";
         }
 
         public string GetDescription(CardInfo card)
@@ -99,7 +99,7 @@ namespace LudumDare53.Card
             {
                 ActionType.DAMAGE => 
                 x.Value > 0 ? // _isNotAITurn have the opposite value here, uh
-                    $"Inflict {GetAttackColor(x.Value)} damage" :
+                    GetAttackText(x.Value) :
                     $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
@@ -218,8 +218,6 @@ namespace LudumDare53.Card
                     {
                         if (_attackCooldownPlayer > 0)
                             _attackCooldownPlayer--;
-                        if (_damageToRageCooldown > 0)
-                            _damageToRageCooldown--;
                         AIManager.Instance.Play();
                     }
                     else
@@ -230,6 +228,8 @@ namespace LudumDare53.Card
                             _attackForceCooldownAI--;
                         if (_noDrawbackCooldownPlayer > 0)
                             _noDrawbackCooldownPlayer--;
+                        if (_damageToRageCooldown > 0)
+                            _damageToRageCooldown--;
                         SpawnCards();
                     }
                 });
