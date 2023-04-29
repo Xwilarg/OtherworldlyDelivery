@@ -10,6 +10,11 @@ namespace LudumDare53.Dialogue
 {
     public class DialogueManager : MonoBehaviour
     {
+        [Header("Debug")]
+        [SerializeField]
+        private bool _isEnabled;
+
+        [Header("Configuration")]
         [SerializeField]
         private TextAsset _story;
 
@@ -40,11 +45,20 @@ namespace LudumDare53.Dialogue
         [SerializeField]
         private SpriteRenderer _spirit;
 
+        [SerializeField]
+        private GameObject _gameUI;
+
         private string[] _lines;
         private int _index;
 
         private void Awake()
         {
+            if (!_isEnabled)
+            {
+                _textContainer.SetActive(false);
+                return;
+            }
+            _gameUI.SetActive(false);
             _lines = _story.text.Replace("\r", "").Split('\n', StringSplitOptions.RemoveEmptyEntries);
             ShowNext();
         }
@@ -60,6 +74,7 @@ namespace LudumDare53.Dialogue
             if (_index == _lines.Length)
             {
                 _textContainer.SetActive(false);
+                _gameUI.SetActive(true);
                 return;
             }
             while (true)
@@ -118,7 +133,7 @@ namespace LudumDare53.Dialogue
 
         public void OnClick(InputAction.CallbackContext value)
         {
-            if (value.performed)
+            if (value.performed && _isEnabled)
             {
                 ShowNext();
             }
