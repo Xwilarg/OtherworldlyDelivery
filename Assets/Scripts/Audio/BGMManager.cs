@@ -22,6 +22,11 @@ namespace LudumDare53.Audio
             }
         }
 
+        public void PlayOneShot(AudioClip clip)
+        {
+            _bgm.PlayOneShot(clip);
+        }
+
         public void SetBGM(AudioClip clip)
         {
             var pos = _bgm.time;

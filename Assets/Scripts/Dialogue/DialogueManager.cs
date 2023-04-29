@@ -32,7 +32,10 @@ namespace LudumDare53.Dialogue
         private TMP_Text _nameText;
 
         [SerializeField]
-        private NameAssociation[] _sprites;
+        private NameAssociation<Sprite>[] _sprites;
+
+        [SerializeField]
+        private NameAssociation<AudioClip>[] _sounds;
 
         [SerializeField]
         private SpriteRenderer _door;
@@ -152,6 +155,11 @@ namespace LudumDare53.Dialogue
                 {
                     var target = txt[6..];
                     _nameText.color = _colors[target];
+                }
+                else if (txt.StartsWith("SFX:"))
+                {
+                    var target = txt[4..];
+                    BGMManager.Instance.PlayOneShot(_sounds.FirstOrDefault(x => x.Name == target).Sprite);
                 }
                 else if (txt.StartsWith("SPIRIT:"))
                 {

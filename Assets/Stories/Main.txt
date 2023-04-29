@@ -5,6 +5,7 @@ SHOW:PACKAGE
 D. J. Walden, God of Judgement... 1034th floor...
 Okay it's here
 SHOW:NONE
+SFX:KNOCK
 *Knock Knock*
 ...
 DOOR:OPEN
@@ -21,6 +22,7 @@ Didi! A package for you
 ...
 Aren't you curious of what is inside?
 Let's open it, he won't mind
+SFX:OPENBOX
 SHOW:MAG
 ...
 SHOW:NONE

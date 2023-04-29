@@ -3254,7 +3254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a451835ad10de5a42b41bd2480cff91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnabled: 0
+  _isEnabled: 1
   _story: {fileID: 4900000, guid: 97e7496a02208e9409161f66bfca81b1, type: 3}
   _textContainer: {fileID: 790908902}
   _dialogueText: {fileID: 1755703626}
@@ -3264,6 +3264,11 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: eb00b16a3ca406c498d69ac64e31c64b, type: 3}
   - Name: MAG
     Sprite: {fileID: 21300000, guid: 9599368e362b58c458841a20cfb84d1d, type: 3}
+  _sounds:
+  - Name: KNOCK
+    Sprite: {fileID: 8300000, guid: c7f4cd8cf64af0749b05dce040d2092e, type: 3}
+  - Name: OPENBOX
+    Sprite: {fileID: 8300000, guid: 07556c54b134fb7448dba1ad39437e69, type: 3}
   _door: {fileID: 399559705}
   _openedDoor: {fileID: 21300000, guid: b0dae1b21797a7747a8f4347d0b57719, type: 3}
   _preview: {fileID: 1614766469}
@@ -3965,6 +3970,10 @@ PrefabInstance:
     - target: {fileID: 6952974793561896646, guid: 39d65af13ff6956408ad17477bf19b48, type: 3}
       propertyPath: m_Name
       value: BGMManager (Debug)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320438896240380227, guid: 39d65af13ff6956408ad17477bf19b48, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
