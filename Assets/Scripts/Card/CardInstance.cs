@@ -26,17 +26,7 @@ namespace LudumDare53.Card
 
         public void OnClick()
         {
-            switch (Info.Type)
-            {
-                case ActionType.DAMAGE:
-                    HealthManager.Instance.TakeDamage(Info.Value);
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
-            DialogueManager.Instance.ShowText(string.Empty, "NONE", _info.Sentence);
-            CardsManager.Instance.RemoveCards();
+            CardsManager.Instance.DoAction(Info);
         }
     }
 }

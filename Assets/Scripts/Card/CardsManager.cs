@@ -1,6 +1,10 @@
-﻿using LudumDare53.SO;
-using TMPro;
+﻿using LudumDare53.Dialogue;
+using LudumDare53.Game;
+using LudumDare53.NPC;
+using LudumDare53.SO;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace LudumDare53.Card
 {
@@ -16,6 +20,8 @@ namespace LudumDare53.Card
 
         [SerializeField]
         private CardInfo[] _cards;
+
+        private bool _isAITurn;
 
         private void Awake()
         {
@@ -37,6 +43,32 @@ namespace LudumDare53.Card
                 var go = Instantiate(_cardPrefab, _cardContainer);
                 go.GetComponent<CardInstance>().Info = _cards[Random.Range(0, _cards.Length)];
             }
+        }
+
+        public void DoAction(CardInfo card)
+        {
+            _isAITurn = !_isAITurn;
+            switch (card.Type)
+            {
+                case ActionType.DAMAGE:
+                    HealthManager.Instance.TakeDamage(card.Value);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+            RemoveCards();
+            DialogueManager.Instance.ShowText(string.Empty, "NONE", card.Sentence, () =>
+            {
+                if (_isAITurn)
+                {
+                    AIManager.Instance.Play();
+                }
+                else
+                {
+                    SpawnCards();
+                }
+            });
         }
     }
 }

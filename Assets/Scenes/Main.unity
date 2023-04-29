@@ -3186,6 +3186,7 @@ GameObject:
   - component: {fileID: 1163326569}
   - component: {fileID: 1163326570}
   - component: {fileID: 1163326571}
+  - component: {fileID: 1163326572}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3353,7 +3354,20 @@ MonoBehaviour:
   _cardPrefab: {fileID: 5824159696829100361, guid: 9a4ef36fa58c8e44fb4bdc3052b0fc0b, type: 3}
   _cards:
   - {fileID: 11400000, guid: ae15719978402884ab3e4c164b3fbd57, type: 2}
-  _dialogueText: {fileID: 0}
+--- !u!114 &1163326572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163326566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 231bee9232a881b4caf5e99e7159fe28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cards:
+  - {fileID: 11400000, guid: 5cb37ca944c263845959b5b5949d9e23, type: 2}
 --- !u!1 &1430503147
 GameObject:
   m_ObjectHideFlags: 0

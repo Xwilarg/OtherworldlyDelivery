@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LudumDare53
+namespace LudumDare53.NPC
 {
     public class Spirit : MonoBehaviour
     {

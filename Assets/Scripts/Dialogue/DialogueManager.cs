@@ -62,6 +62,8 @@ namespace LudumDare53.Dialogue
 
         private CardsManager _cardsManager;
 
+        private Action _callback;
+
         private void Awake()
         {
             Instance = this;
@@ -72,6 +74,7 @@ namespace LudumDare53.Dialogue
                 _cardsManager.SpawnCards();
                 return;
             }
+            _callback = _cardsManager.SpawnCards;
             _gameUI.SetActive(false);
             _lines = _story.text.Replace("\r", "").Split('\n', StringSplitOptions.RemoveEmptyEntries);
             ShowNext();
@@ -84,7 +87,7 @@ namespace LudumDare53.Dialogue
             { "NONE", Color.black }
         };
 
-        public void ShowText(string name, string color, string text)
+        public void ShowText(string name, string color, string text, Action callback)
         {
             _textContainer.SetActive(true);
             _isEnabled = true;
@@ -95,6 +98,7 @@ namespace LudumDare53.Dialogue
                 text
             };
             _index = 0;
+            _callback = callback;
             ShowNext();
         }
 
@@ -108,7 +112,7 @@ namespace LudumDare53.Dialogue
                 _bgm.clip = _gameClip;
                 _bgm.Play();
                 _bgm.time = pos;
-                _cardsManager.SpawnCards();
+                _callback?.Invoke();
                 return;
             }
             while (true)
