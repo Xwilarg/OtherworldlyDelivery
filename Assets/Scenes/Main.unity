@@ -3330,6 +3330,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5cb37ca944c263845959b5b5949d9e23, type: 2}
   - {fileID: 11400000, guid: 70019ceaff3f03c458ccc70d5d41be9b, type: 2}
   - {fileID: 11400000, guid: 3a3b8c3305092964dbc38a04d298c562, type: 2}
+  _ult: {fileID: 11400000, guid: 339f5d1b5946dac4481d5446c738e79c, type: 2}
 --- !u!224 &1430503148 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1236940641904393702, guid: 72b85f98a68671a4b8dfb10a1d4b0c0f, type: 3}

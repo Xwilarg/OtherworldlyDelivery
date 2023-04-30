@@ -196,7 +196,7 @@ namespace LudumDare53.Card
                             var index = _playerDeck.IndexOf(card);
                             _playerDeck.RemoveAt(index);
                         }
-                        else AIManager.Instance.UseSpe();
+                        else { } // Done automatically in AIManager
                         break;
 
                     case ActionType.CANT_ATTACK: // Debuff that will be applied to the player need to have their counter increased by 1 because of how the debuff system is handled
@@ -260,7 +260,6 @@ namespace LudumDare53.Card
                             _damageToRageCooldown--;
                         if (_attackBoost > 0)
                             _attackBoost--;
-                        AIManager.Instance.NextTurn();
                         SpawnCards();
                     }
                 });

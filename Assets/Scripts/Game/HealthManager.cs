@@ -77,6 +77,8 @@ namespace LudumDare53.Game
         public int Health => _currDamage;
 #endif
 
+        public bool IsAILoosing => _currDamage > _aiMaxHealth / 2;
+
         private void Update()
         {
             _maxHealthTimer += Time.deltaTime * 10f;

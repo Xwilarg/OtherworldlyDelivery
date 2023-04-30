@@ -1,4 +1,5 @@
 ﻿using LudumDare53.Card;
+using LudumDare53.Game;
 using LudumDare53.SO;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace LudumDare53.NPC
         private CardInfo[] _cards;
         private List<CardInfo> _deck;
 
-        private int _turnBeforeUlt = 10;
-        private bool _canUseUlt;
+        [SerializeField]
+        private CardInfo _ult;
+
+        private bool _canUseUlt = true;
 
         private void Awake()
         {
@@ -23,23 +26,18 @@ namespace LudumDare53.NPC
             _deck = _cards.ToList();
         }
 
-        public void UseSpe()
-        {
-            _canUseUlt = false;
-        }
-
-        public void NextTurn()
-        {
-            if (_turnBeforeUlt == 0)
-                return;
-            _turnBeforeUlt--;
-            if (_turnBeforeUlt == 0)
-                _canUseUlt = true;
-        }
-
         public void Play()
         {
-            var deck = CardsManager.Instance.FilterCards(_deck).Where(x => _canUseUlt || !x.Effects.Any(e => e.Type == ActionType.DESTROY_ON_DISCARD)).ToArray();
+            CardInfo[] deck;
+            if (_canUseUlt && HealthManager.Instance.IsAILoosing)
+            {
+                _canUseUlt = false;
+                deck = new[] { _ult };
+            }
+            else
+            {
+                deck = CardsManager.Instance.FilterCards(_deck);
+            }
             var card = deck[Random.Range(0, deck.Length)];
             CardsManager.Instance.SpawnAICard(card);
             CardsManager.Instance.DoAction(card);
