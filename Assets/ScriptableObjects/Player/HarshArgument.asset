@@ -16,6 +16,6 @@ MonoBehaviour:
   Sentence: Look, that's your name right?
   Effects:
   - Type: 0
-    Value: 20
+    Value: 25
   - Type: 1
     Value: 10
