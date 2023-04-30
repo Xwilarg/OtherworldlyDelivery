@@ -148,16 +148,18 @@ namespace LudumDare53.Card
         }
 
         public CardInfo[] FilterCards(IEnumerable<CardInfo> cards)
-            => cards.Where(x =>
+        {
+            return cards.Where(x =>
             {
                 if (GetDebuff(!_isNotAITurn, ActionType.CANT_ATTACK))
-                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0));
+                    return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0) && (!GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK) || !x.Effects.Any(e => e.Type == ActionType.FORCE_ATTACK));
                 if (GetDebuff(false, ActionType.FORCE_ATTACK) && _isNotAITurn)
                     return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
                 if (GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK)) // If enemy can't attack, don't let player use a card that force him to attack
                     return !x.Effects.Any(e => e.Type == ActionType.FORCE_ATTACK);
                 return true;
             }).ToArray();
+        }
 
         private void AddDebuff(bool isPlayer, ActionType action, int value)
         {

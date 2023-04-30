@@ -3571,16 +3571,16 @@ MonoBehaviour:
   _cardContainer: {fileID: 538953774}
   _cardPrefab: {fileID: 7505167748350879356, guid: 9a4ef36fa58c8e44fb4bdc3052b0fc0b, type: 3}
   _playerCards:
-  - {fileID: 11400000, guid: ae15719978402884ab3e4c164b3fbd57, type: 2}
-  - {fileID: 11400000, guid: e2393eb2bf0d1d14489083c5f9269619, type: 2}
   - {fileID: 11400000, guid: d630aac7a41e2864bab5e857837c197c, type: 2}
-  - {fileID: 11400000, guid: 118555f2acf70ac4480db0f8d81bd8bf, type: 2}
   - {fileID: 11400000, guid: 644628141fc85a043956f235c5d32b91, type: 2}
   - {fileID: 11400000, guid: f0b20b7ac02f97f4280e4c306c961ff4, type: 2}
   - {fileID: 11400000, guid: 75f55b1340c275f4da581af611364281, type: 2}
-  - {fileID: 11400000, guid: cce72a0329644d940b3d78308f271bf8, type: 2}
+  - {fileID: 11400000, guid: e2393eb2bf0d1d14489083c5f9269619, type: 2}
   - {fileID: 11400000, guid: 39caf4cd51345344d807b5be2d7fc675, type: 2}
+  - {fileID: 11400000, guid: cce72a0329644d940b3d78308f271bf8, type: 2}
   - {fileID: 11400000, guid: b372bd78619826b4f801b10d0535b5e4, type: 2}
+  - {fileID: 11400000, guid: ae15719978402884ab3e4c164b3fbd57, type: 2}
+  - {fileID: 11400000, guid: 118555f2acf70ac4480db0f8d81bd8bf, type: 2}
   _uselessMumble: {fileID: 11400000, guid: 62606207184fb7b45b26be8c11e3fb5f, type: 2}
   _cardAIPos: {fileID: 1151268901}
   _rageText: {fileID: 2056875687}
