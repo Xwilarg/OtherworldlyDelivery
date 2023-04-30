@@ -49,6 +49,8 @@ namespace LudumDare53.Card
         private int _rageReduction = 7;
         private float _damageMultiplicator = 1.5f;
 
+        private int _dupplicateDeckSize = 1;
+
         public int TurnCount { set; get; }
 
         private void Awake()
@@ -56,7 +58,7 @@ namespace LudumDare53.Card
             Instance = this;
             _debuffs.Add(true, new());
             _debuffs.Add(false, new());
-            _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
+            _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, _dupplicateDeckSize)).ToList();
         }
 
         public bool CanAIPlayAttack => !GetDebuff(false, ActionType.CANT_ATTACK);
