@@ -89,9 +89,9 @@ namespace LudumDare53.Card
             {
                 var modValue = value * (1 + _rage / 5);
                 if (_damageToRageCooldown > 0)
-                    return $"Inflict <color=grey>0</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
-                else if (_rage > 0)
                     return $"Inflict <color=green>{modValue / 2}</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
+                else if (_rage > 0)
+                    return $"Inflict <color=red>{modValue}</color> damage";
             }
             else
             {
