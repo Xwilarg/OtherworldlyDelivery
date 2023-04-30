@@ -91,7 +91,7 @@ namespace LudumDare53.Card
                 if (_damageToRageCooldown > 0)
                     return $"Inflict <color=grey>0</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
                 else if (_rage > 0)
-                    return $"Inflict <color=red>{modValue}</color> damage";
+                    return $"Inflict <color=green>{modValue / 2}</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
             }
             else
             {
@@ -119,7 +119,7 @@ namespace LudumDare53.Card
                 ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
-                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are cancelled and reduce the rage",
+                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are halved and reduce the rage",
                 ActionType.FORCE_ATTACK => $"Force target to play damage cards for {x.Value} turns",
                 ActionType.DAMAGE_BOOST => $"All your attacks does twice the amount of damage for {x.Value} turns",
                 _ => throw new NotImplementedException()
