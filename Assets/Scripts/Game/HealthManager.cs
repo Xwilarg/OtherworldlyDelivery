@@ -1,5 +1,7 @@
 ﻿using LudumDare53.Audio;
+using LudumDare53.Card;
 using LudumDare53.Dialogue;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +19,12 @@ namespace LudumDare53.Game
 
         [SerializeField]
         private RectTransform _aiHealthBar;
+
+        [SerializeField]
+        private GameObject _gameoverScreen;
+
+        [SerializeField]
+        private TMP_Text _gameoverText;
 
         private HealthCursor _cursorScript;
 
@@ -59,7 +67,8 @@ namespace LudumDare53.Game
                 HasLost = true;
                 DialogueManager.Instance.ShowText("Divyansh", "BLUE", "See, I told you it's not mine, so now just go! Leave the package here tho, as a compensation, so I can... burn it", () =>
                 {
-                    SceneManager.LoadScene("MainMenu");
+                    _gameoverScreen.SetActive(true);
+                    _gameoverText.text = "You Lost";
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
@@ -68,10 +77,16 @@ namespace LudumDare53.Game
                 HasLost = true;
                 DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
                 {
-                    SceneManager.LoadScene("MainMenu");
+                    _gameoverScreen.SetActive(true);
+                    _gameoverText.text = $"You Won in {CardsManager.Instance.TurnCount} turns";
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
+        }
+
+        public void LoadMainMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
         }
 
 #if UNITY_EDITOR

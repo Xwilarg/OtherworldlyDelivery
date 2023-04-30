@@ -47,6 +47,8 @@ namespace LudumDare53.Card
 
         private int _rageReduction = 7;
 
+        public int TurnCount { set; get; }
+
         private void Awake()
         {
             Instance = this;
@@ -55,7 +57,7 @@ namespace LudumDare53.Card
             _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
         }
 
-        public bool CanAIPlayAttack => !GetDebuff(true, ActionType.CANT_ATTACK);
+        public bool CanAIPlayAttack => !GetDebuff(false, ActionType.CANT_ATTACK);
 
         public void RemoveCards()
         {
@@ -71,6 +73,7 @@ namespace LudumDare53.Card
 
         public void SpawnCards()
         {
+            TurnCount++;
             var tmpDeck = new List<CardInfo>(FilterCards(_playerDeck));
             for (int i = 0; i < 3; i++)
             {
