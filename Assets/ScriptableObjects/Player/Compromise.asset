@@ -16,6 +16,6 @@ MonoBehaviour:
   Sentence: I'm bound by professional secrecy, I won't repeat it
   Effects:
   - Type: 0
-    Value: 20
+    Value: 25
   - Type: 0
-    Value: -20
+    Value: -25
