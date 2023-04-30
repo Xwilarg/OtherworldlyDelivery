@@ -44,6 +44,8 @@ namespace LudumDare53.Card
         private int _noDrawbackCooldownPlayer;
         private int _damageToRageCooldown;
 
+        private int _rageReduction = 7;
+
         private void Awake()
         {
             Instance = this;
@@ -88,7 +90,7 @@ namespace LudumDare53.Card
             int modValue = value;
             if (_isNotAITurn)
             {
-                modValue *= (1 + _rage / 5);
+                modValue *= (1 + _rage / _rageReduction);
                 if (_damageToRageCooldown > 0)
                 {
                     modValue /= 2;
@@ -165,15 +167,15 @@ namespace LudumDare53.Card
                         var value = e.Value;
                         if (!_isNotAITurn)
                         {
-                            value *= 1 + _rage / 5;
+                            value *= 1 + _rage / _rageReduction;
                             if (_damageToRageCooldown > 0)
                             {
+                                value /= 2;
                                 _rage -= value;
                                 if (_rage < 0)
                                 {
                                     _rage = 0;
                                 }
-                                value = 0;
                             }
                             if (value > 100 && e.Type == ActionType.DAMAGE_LIMIT)
                             {
@@ -191,7 +193,7 @@ namespace LudumDare53.Card
 #if UNITY_EDITOR
                         if (!_isNotAITurn)
                         {
-                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / 5) <=> {value} * {1 + _rage / 5}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
+                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / _rageReduction) <=> {value} * {1 + _rage / _rageReduction}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
                         }
 #endif
                         HealthManager.Instance.TakeDamage(value);

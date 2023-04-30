@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace LudumDare53.Dialogue
 {
