@@ -55,7 +55,7 @@ namespace LudumDare53.Card
             _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
         }
 
-        public bool CanAIPlayAttack => GetDebuff(true, ActionType.CANT_ATTACK);
+        public bool CanAIPlayAttack => !GetDebuff(true, ActionType.CANT_ATTACK);
 
         public void RemoveCards()
         {
