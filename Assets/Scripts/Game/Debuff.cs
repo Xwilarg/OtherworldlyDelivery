@@ -2,15 +2,7 @@
 {
     public class Debuff
     {
-        private int _value;
         public bool BypassFirst;
-        public int Value
-        {
-            set
-            {
-                _value = value;
-            }
-            get => _value;
-        }
+        public int Value;
     }
 }
