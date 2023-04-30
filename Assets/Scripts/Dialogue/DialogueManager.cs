@@ -154,6 +154,7 @@ namespace LudumDare53.Dialogue
                     {
                         _preview.SetActive(true);
                         _previewSprite.sprite = _sprites.FirstOrDefault(x => x.Name == target).Sprite;
+                        _previewSprite.preserveAspect = true;
                     }
                 }
                 else if (txt.StartsWith("COLOR:"))
