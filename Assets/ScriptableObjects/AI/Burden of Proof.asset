@@ -16,4 +16,4 @@ MonoBehaviour:
   Sentence: You can't even proove that the address was correctly written
   Effects:
   - Type: 0
-    Value: 10
+    Value: 5

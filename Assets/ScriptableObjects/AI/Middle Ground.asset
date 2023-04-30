@@ -16,6 +16,6 @@ MonoBehaviour:
   Sentence: Maybe I ordered this but it wasn't what was displayed on the site
   Effects:
   - Type: 0
-    Value: 15
+    Value: 10
   - Type: 1
     Value: -10

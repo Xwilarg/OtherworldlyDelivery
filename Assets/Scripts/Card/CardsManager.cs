@@ -50,6 +50,8 @@ namespace LudumDare53.Card
             _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
         }
 
+        public bool CanAIPlayAttack => _attackCooldownAI <= 0;
+
         public void RemoveCards()
         {
             for (var i = 0; i < _cardContainer.childCount; i++)

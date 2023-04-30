@@ -29,7 +29,7 @@ namespace LudumDare53.NPC
         public void Play()
         {
             CardInfo[] deck;
-            if (_canUseUlt && HealthManager.Instance.IsAILoosing)
+            if (_canUseUlt && HealthManager.Instance.IsAILoosing && CardsManager.Instance.CanAIPlayAttack)
             {
                 _canUseUlt = false;
                 deck = new[] { _ult };
