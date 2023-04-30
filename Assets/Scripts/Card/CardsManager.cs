@@ -153,6 +153,8 @@ namespace LudumDare53.Card
         {
             return cards.Where(x =>
             {
+                if (x.Effects.Any(e => e.Type == ActionType.MAX_HEALTH) && !HealthManager.Instance.CanHealthBeReduced) // If max health is at 0 then we can't reduce it anymore
+                    return false;
                 if (GetDebuff(!_isNotAITurn, ActionType.CANT_ATTACK))
                     return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0) && (!GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK) || !x.Effects.Any(e => e.Type == ActionType.FORCE_ATTACK));
                 if (GetDebuff(false, ActionType.FORCE_ATTACK) && _isNotAITurn)

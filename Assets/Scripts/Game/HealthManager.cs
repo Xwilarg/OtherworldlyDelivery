@@ -49,6 +49,8 @@ namespace LudumDare53.Game
             TakeDamage(0); // Used to do victory check and stuff
         }
 
+        public bool CanHealthBeReduced => _aiMaxHealth >= 5;
+
         public void ApplyDamages()
         {
             var pos = _currDamage / 200f;
@@ -69,7 +71,7 @@ namespace LudumDare53.Game
                 DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
                 {
                     _gameoverScreen.SetActive(true);
-                    _gameoverText.text = $"You Won in {CardsManager.Instance.TurnCount} turns";
+                    _gameoverText.text = $"You won in {CardsManager.Instance.TurnCount} turns";
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
