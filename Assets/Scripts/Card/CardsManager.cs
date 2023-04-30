@@ -40,6 +40,7 @@ namespace LudumDare53.Card
         private TMP_Text _debuffDisplayPlayer, _debuffDisplayAI;
 
         private int _rage;
+        public int Rage => _rage;
 
         private bool _isNotAITurn;
 
@@ -216,12 +217,14 @@ namespace LudumDare53.Card
                                 value *= 2;
                             }
                         }
+                        /*
 #if UNITY_EDITOR
                         if (!_isNotAITurn)
                         {
                             Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / _rageReduction) <=> {value} * {1 + _rage / _rageReduction}, rage cooldown? {GetDebuff(false, ActionType.DEFLECT_ON_RAGE)}) from a base of {HealthManager.Instance.Health}");
                         }
 #endif
+                        */
                         HealthManager.Instance.TakeDamage(value);
                         break;
 
