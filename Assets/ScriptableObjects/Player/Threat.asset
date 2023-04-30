@@ -16,6 +16,6 @@ MonoBehaviour:
   Sentence: Maybe we can consult your order history then
   Effects:
   - Type: 1
-    Value: 10
+    Value: 5
   - Type: 4
     Value: 2
