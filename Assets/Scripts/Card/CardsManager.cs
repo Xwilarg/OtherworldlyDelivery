@@ -81,8 +81,17 @@ namespace LudumDare53.Card
             {
                 var index = Random.Range(0, tmpDeck.Count);
                 var go = Instantiate(_cardPrefab, _cardContainer);
-                go.GetComponent<CardInstance>().Info = tmpDeck[index];
-                tmpDeck.RemoveAll(x => x.Title == tmpDeck[index].Title);
+                var card = tmpDeck[index];
+                go.GetComponent<CardInstance>().Info = card;
+                if (card.Title == "Useless Mumble") // Allow useless mumble to stack
+                {
+                    var tIndex = tmpDeck.IndexOf(card);
+                    tmpDeck.RemoveAt(tIndex);
+                }
+                else
+                {
+                    tmpDeck.RemoveAll(x => x.Title == tmpDeck[index].Title);
+                }
             }
         }
 
