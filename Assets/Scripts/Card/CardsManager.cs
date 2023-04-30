@@ -87,9 +87,9 @@ namespace LudumDare53.Card
         {
             if (_isNotAITurn)
             {
-                var modValue = value * (1 + _rage / 10);
+                var modValue = value * (1 + _rage / 5);
                 if (_damageToRageCooldown > 0)
-                    return $"Inflict <color=green>{modValue / 2}</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
+                    return $"Inflict <color=grey>0</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
                 else if (_rage > 0)
                     return $"Inflict <color=red>{modValue}</color> damage";
             }
@@ -119,7 +119,7 @@ namespace LudumDare53.Card
                 ActionType.CANT_ATTACK => $"Prevent target to play damage cards for {x.Value} turns",
                 ActionType.MAX_HEALTH => $"Reduce target max health by {x.Value}",
                 ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
-                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are halved and reduce the rage",
+                ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are cancelled and reduce the rage",
                 ActionType.FORCE_ATTACK => $"Force target to play damage cards for {x.Value} turns",
                 ActionType.DAMAGE_BOOST => $"All your attacks does twice the amount of damage for {x.Value} turns",
                 _ => throw new NotImplementedException()
@@ -151,15 +151,15 @@ namespace LudumDare53.Card
                         var value = e.Value;
                         if (!_isNotAITurn)
                         {
-                            value *= 1 + _rage / 10;
+                            value *= 1 + _rage / 5;
                             if (_damageToRageCooldown > 0)
                             {
-                                value /= 2;
                                 _rage -= value;
                                 if (_rage < 0)
                                 {
                                     _rage = 0;
                                 }
+                                value = 0;
                             }
                         }
                         else
@@ -173,7 +173,7 @@ namespace LudumDare53.Card
 #if UNITY_EDITOR
                         if (!_isNotAITurn)
                         {
-                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / 10) <=> {value} * {1 + _rage / 10}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
+                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / 5) <=> {value} * {1 + _rage / 5}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
                         }
 #endif
                         HealthManager.Instance.TakeDamage(value);
