@@ -26,16 +26,19 @@ namespace LudumDare53.Minigame
 
         private void Update()
         {
-            _timer -= Time.deltaTime;
-            _timerText.text = $"{Mathf.CeilToInt(_timer)}";
-            if (_timer <= 0f && !DidGameEnded)
+            if (!DidGameEnded)
             {
-                DidGameEnded = true;
-                _endContainer.SetActive(true);
-                _finalScoreText.text = $"Final Score:\n{_score}";
-                foreach (var go in GameObject.FindGameObjectsWithTag("Mag"))
+                _timer -= Time.deltaTime;
+                _timerText.text = $"{Mathf.CeilToInt(_timer)}";
+                if (_timer <= 0f && !DidGameEnded)
                 {
-                    Destroy(go);
+                    DidGameEnded = true;
+                    _endContainer.SetActive(true);
+                    _finalScoreText.text = $"Final Score:\n{_score}";
+                    foreach (var go in GameObject.FindGameObjectsWithTag("Mag"))
+                    {
+                        Destroy(go);
+                    }
                 }
             }
         }
