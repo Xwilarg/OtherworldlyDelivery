@@ -70,7 +70,7 @@ namespace LudumDare53.Card
                 var index = Random.Range(0, tmpDeck.Count);
                 var go = Instantiate(_cardPrefab, _cardContainer);
                 go.GetComponent<CardInstance>().Info = tmpDeck[index];
-                tmpDeck.RemoveAt(index);
+                tmpDeck.RemoveAll(x => x.Title == tmpDeck[index].Title);
             }
         }
 
@@ -163,7 +163,7 @@ namespace LudumDare53.Card
                         else
                         {
                             value *= -1;
-                            if (_attackBoost > 0)
+                            if (_attackBoost > 0 && value < 0)
                             {
                                 value *= 2;
                             }
