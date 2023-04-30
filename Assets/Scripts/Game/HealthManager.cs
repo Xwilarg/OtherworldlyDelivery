@@ -43,9 +43,17 @@ namespace LudumDare53.Game
         public void TakeDamage(int amount)
         {
             _currDamage -= amount;
+            if (_currDamage < -100)
+            {
+                _currDamage = -100;
+            }
+            else if (_currDamage > _aiMaxHealth)
+            {
+                _currDamage = _aiMaxHealth;
+            }
             var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
-            if (_currDamage < -100)
+            if (_currDamage <= -100)
             {
                 HasLost = true;
                 DialogueManager.Instance.ShowText("Divyansh", "BLUE", "See, I told you it's not mine, so now just go! Leave the package here tho, as a compensation, so I can... burn it", () =>
@@ -54,7 +62,7 @@ namespace LudumDare53.Game
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
             }
-            else if (_currDamage > _aiMaxHealth)
+            else if (_currDamage >= _aiMaxHealth)
             {
                 HasLost = true;
                 DialogueManager.Instance.ShowText("Divyansh", "BLUE", "Fine, you won! Here I'm taking it, grab your money for the livraison fees and just leave now!", () =>
