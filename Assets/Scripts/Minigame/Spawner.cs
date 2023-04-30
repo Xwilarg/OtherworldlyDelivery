@@ -28,6 +28,10 @@ namespace LudumDare53.Minigame
         private IEnumerator Spawn()
         {
             yield return new WaitForSeconds(Random.Range(_min, _max));
+            if (ScoreManager.Instance.DidGameEnded)
+            {
+                yield break;
+            }
             var go = Instantiate(_door, transform.position, Quaternion.identity);
             go.GetComponent<DoorController>().Init(_goRight, _speed, () =>
             {

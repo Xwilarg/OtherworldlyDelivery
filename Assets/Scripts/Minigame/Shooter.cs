@@ -37,7 +37,7 @@ namespace LudumDare53.Minigame
 
         public void OnClick(InputAction.CallbackContext value)
         {
-            if (value.performed && _current != null)
+            if (value.performed && _current != null && !ScoreManager.Instance.DidGameEnded)
             {
                 _current.velocity = Vector2.up * _speed;
                 _current.angularVelocity = 1000f;
