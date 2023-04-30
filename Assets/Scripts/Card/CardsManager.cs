@@ -281,6 +281,7 @@ namespace LudumDare53.Card
                         throw new NotImplementedException();
                 }
             }
+            HealthManager.Instance.ApplyDamages();
             if (_isNotAITurn)
             {
                 foreach (var d2 in _debuffs[true])

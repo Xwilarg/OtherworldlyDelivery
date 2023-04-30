@@ -49,17 +49,8 @@ namespace LudumDare53.Game
             TakeDamage(0); // Used to do victory check and stuff
         }
 
-        public void TakeDamage(int amount)
+        public void ApplyDamages()
         {
-            _currDamage -= amount;
-            if (_currDamage < -100)
-            {
-                _currDamage = -100;
-            }
-            else if (_currDamage > _aiMaxHealth)
-            {
-                _currDamage = _aiMaxHealth;
-            }
             var pos = _currDamage / 200f;
             _cursorScript.MoveTo(pos);
             if (_currDamage <= -100)
@@ -81,6 +72,19 @@ namespace LudumDare53.Game
                     _gameoverText.text = $"You Won in {CardsManager.Instance.TurnCount} turns";
                 });
                 BGMManager.Instance.SetBGM(_baseBGM);
+            }
+        }
+
+        public void TakeDamage(int amount)
+        {
+            _currDamage -= amount;
+            if (_currDamage < -100)
+            {
+                _currDamage = -100;
+            }
+            else if (_currDamage > _aiMaxHealth)
+            {
+                _currDamage = _aiMaxHealth;
             }
         }
 
