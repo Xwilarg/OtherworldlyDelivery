@@ -4788,7 +4788,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Okay so there are times where you might need to argue with others people,
-    it's not much about prooving that you are right, but making the other one accept
+    it's not much about proving that you are right, but making the other one accept
     that you are
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 44c45768c67c3f0439b25d6e16f04a24, type: 2}
