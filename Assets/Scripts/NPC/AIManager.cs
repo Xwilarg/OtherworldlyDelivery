@@ -18,6 +18,8 @@ namespace LudumDare53.NPC
         [SerializeField]
         private CardInfo _ult;
 
+        private string _lastCard;
+
         private bool _canUseUlt = true;
 
         private void Awake()
@@ -36,9 +38,10 @@ namespace LudumDare53.NPC
             }
             else
             {
-                deck = CardsManager.Instance.FilterCards(_deck);
+                deck = CardsManager.Instance.FilterCards(_deck.Where(x => x.Title != _lastCard));
             }
             var card = deck[Random.Range(0, deck.Length)];
+            _lastCard = card.Title;
             CardsManager.Instance.SpawnAICard(card);
             CardsManager.Instance.DoAction(card);
         }
