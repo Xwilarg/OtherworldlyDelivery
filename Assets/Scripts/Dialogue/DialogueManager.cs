@@ -32,6 +32,9 @@ namespace LudumDare53.Dialogue
         private TMP_Text _nameText;
 
         [SerializeField]
+        private Image _nameContainer;
+
+        [SerializeField]
         private NameAssociation<Sprite>[] _sprites;
 
         [SerializeField]
@@ -80,6 +83,7 @@ namespace LudumDare53.Dialogue
                 _cardsManager.SpawnCards();
             };
             _gameUI.SetActive(false);
+            _nameContainer.gameObject.SetActive(false);
             _lines = _story.text.Replace("\r", "").Split('\n', StringSplitOptions.RemoveEmptyEntries);
             ShowNext();
         }
@@ -130,6 +134,7 @@ namespace LudumDare53.Dialogue
                 if (txt.StartsWith("NAME:"))
                 {
                     _nameText.text = txt[5..];
+                    _nameContainer.gameObject.SetActive(!string.IsNullOrEmpty(_nameText.text));
                 }
                 else if (txt.StartsWith("DOOR:"))
                 {
