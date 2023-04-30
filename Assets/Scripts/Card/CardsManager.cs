@@ -149,7 +149,7 @@ namespace LudumDare53.Card
             {
                 if (GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK))
                     return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0) || e.Type == ActionType.FORCE_ATTACK);
-                if (GetDebuff(false, ActionType.FORCE_ATTACK) && !_isNotAITurn)
+                if (GetDebuff(false, ActionType.FORCE_ATTACK) && _isNotAITurn)
                     return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
                 return true;
             }).ToArray();
@@ -238,8 +238,7 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.CANT_ATTACK: // Debuff that will be applied to the player need to have their counter increased by 1 because of how the debuff system is handled
-                        if (_isNotAITurn) AddDebuff(false, e.Type, e.Value);
-                        else AddDebuff(true, e.Type, e.Value + 1);
+                        AddDebuff(!_isNotAITurn, e.Type, e.Value);
                         break;
 
                     case ActionType.FORCE_ATTACK:
@@ -253,7 +252,7 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.NO_NEGATIVE_DAMAGE:
-                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value + 1);
+                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value);
                         else throw new NotImplementedException();
                         break;
 
@@ -263,7 +262,7 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.DAMAGE_BOOST:
-                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value + 1);
+                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value);
                         else throw new NotImplementedException();
                         break;
 
