@@ -11,6 +11,7 @@
         NO_NEGATIVE_DAMAGE,
         DEFLECT_ON_RAGE,
         FORCE_ATTACK,
-        DAMAGE_BOOST
+        DAMAGE_BOOST,
+        DAMAGE_LIMIT
     }
 }

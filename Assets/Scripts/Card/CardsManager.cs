@@ -83,34 +83,47 @@ namespace LudumDare53.Card
             go.GetComponent<Button>().interactable = false;
         }
 
-        string GetAttackText(int value)
+        string GetAttackText(int value, bool limit)
         {
+            int modValue = value;
             if (_isNotAITurn)
             {
-                var modValue = value * (1 + _rage / 5);
+                modValue *= (1 + _rage / 5);
                 if (_damageToRageCooldown > 0)
-                    return $"Inflict <color=green>{modValue / 2}</color> damage and decrease rage by <color=green>{modValue / 2}</color>";
+                {
+                    modValue /= 2;
+                    if (limit && modValue > 100) modValue = 100;
+                    return $"Inflict <color=green>{modValue}</color> damage and decrease rage by <color=green>{modValue}</color>";
+                }
                 else if (_rage > 0)
+                {
+                    if (limit && modValue > 100) modValue = 100;
                     return $"Inflict <color=red>{modValue}</color> damage";
+                }
             }
             else
             {
                 if (_attackBoost > 0)
                 {
-                    return $"Inflict <color=green>{value * 2}</color> damage";
+                    modValue *= 2;
+                    if (limit && modValue > 100) modValue = 100;
+                    return $"Inflict <color=green>{modValue}</color> damage";
                 }
             }
-            return $"Inflict {value} damage";
+            modValue = value;
+            if (limit && modValue > 100) modValue = 100;
+            return $"Inflict {modValue} damage";
         }
 
         public string GetDescription(CardInfo card)
         {
             return string.Join("\n", card.Effects.Select(x => x.Type switch
             {
-                ActionType.DAMAGE => 
+                ActionType.DAMAGE =>
                 x.Value > 0 ? // _isNotAITurn have the opposite value here, uh
-                    GetAttackText(x.Value) :
+                    GetAttackText(x.Value, false) :
                     $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
+                ActionType.DAMAGE_LIMIT => GetAttackText(x.Value, true),
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
                     $"Decrease rage by {-x.Value}",
@@ -147,6 +160,7 @@ namespace LudumDare53.Card
                     continue;
                 switch (e.Type)
                 {
+                    case ActionType.DAMAGE_LIMIT:
                     case ActionType.DAMAGE:
                         var value = e.Value;
                         if (!_isNotAITurn)
@@ -160,6 +174,10 @@ namespace LudumDare53.Card
                                     _rage = 0;
                                 }
                                 value = 0;
+                            }
+                            if (value > 100 && e.Type == ActionType.DAMAGE_LIMIT)
+                            {
+                                value = 100;
                             }
                         }
                         else

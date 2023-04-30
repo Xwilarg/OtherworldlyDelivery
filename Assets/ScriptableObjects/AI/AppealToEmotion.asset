@@ -15,7 +15,7 @@ MonoBehaviour:
   Title: Appeal to Emotion
   Sentence: Think of all the damage you are doing to my reputation right now
   Effects:
-  - Type: 0
+  - Type: 10
     Value: 25
   - Type: 3
     Value: 0
