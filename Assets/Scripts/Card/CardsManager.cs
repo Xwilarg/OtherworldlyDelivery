@@ -5,6 +5,7 @@ using LudumDare53.SO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,24 +36,26 @@ namespace LudumDare53.Card
         [SerializeField]
         private TMP_Text _rageText;
 
+        [SerializeField]
+        private TMP_Text _debuffDisplayPlayer, _debuffDisplayAI;
+
         private int _rage;
 
         private bool _isNotAITurn;
 
-        private int _attackCooldownPlayer, _attackCooldownAI, _attackForceCooldownAI;
-        private int _attackBoost;
-        private int _noDrawbackCooldownPlayer;
-        private int _damageToRageCooldown;
+        private readonly Dictionary<bool, Dictionary<ActionType, Debuff>> _debuffs = new();
 
         private int _rageReduction = 7;
 
         private void Awake()
         {
             Instance = this;
+            _debuffs.Add(true, new());
+            _debuffs.Add(false, new());
             _playerDeck = _playerCards.SelectMany(x => Enumerable.Repeat(x, 2)).ToList();
         }
 
-        public bool CanAIPlayAttack => _attackCooldownAI <= 0;
+        public bool CanAIPlayAttack => GetDebuff(false, ActionType.CANT_ATTACK);
 
         public void RemoveCards()
         {
@@ -91,7 +94,7 @@ namespace LudumDare53.Card
             if (_isNotAITurn)
             {
                 modValue *= (1 + _rage / _rageReduction);
-                if (_damageToRageCooldown > 0)
+                if (GetDebuff(false, ActionType.DEFLECT_ON_RAGE))
                 {
                     modValue /= 2;
                     if (limit && modValue > 100) modValue = 100;
@@ -105,7 +108,7 @@ namespace LudumDare53.Card
             }
             else
             {
-                if (_attackBoost > 0)
+                if (GetDebuff(true, ActionType.DAMAGE_BOOST))
                 {
                     modValue *= 2;
                     if (limit && modValue > 100) modValue = 100;
@@ -124,7 +127,7 @@ namespace LudumDare53.Card
                 ActionType.DAMAGE =>
                 x.Value > 0 ? // _isNotAITurn have the opposite value here, uh
                     GetAttackText(x.Value, false) :
-                    $"Take {(!_isNotAITurn && _noDrawbackCooldownPlayer > 0 ? "<color=grey>0</color>" : -x.Value)} damage",
+                    $"Take {(!_isNotAITurn && GetDebuff(true, ActionType.NO_NEGATIVE_DAMAGE) ? "<color=grey>0</color>" : -x.Value)} damage",
                 ActionType.DAMAGE_LIMIT => GetAttackText(x.Value, true),
                 ActionType.RAGE => x.Value > 0 ?
                     $"Increase rage by {x.Value}" :
@@ -144,21 +147,34 @@ namespace LudumDare53.Card
         public CardInfo[] FilterCards(IEnumerable<CardInfo> cards)
             => cards.Where(x =>
             {
-
-                var targetCounter = _isNotAITurn ? _attackCooldownAI : _attackCooldownPlayer;
-                if (targetCounter > 0)
-                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0)|| e.Type == ActionType.FORCE_ATTACK);
-                if (_attackForceCooldownAI > 0 && _isNotAITurn)
+                if (GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK))
+                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0) || e.Type == ActionType.FORCE_ATTACK);
+                if (GetDebuff(false, ActionType.FORCE_ATTACK) && !_isNotAITurn)
                     return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
                 return true;
             }).ToArray();
+
+        private void AddDebuff(bool isPlayer, ActionType action, int value)
+        {
+            var targetD = _debuffs[isPlayer];
+            if (targetD.ContainsKey(action))
+            {
+                targetD[action].Value = value + (isPlayer ? 1 : 0);
+                targetD[action].MaxValue = value;
+            }
+            else
+            {
+                targetD.Add(action, new() { Value = value, MaxValue = value });
+            }
+            UpdateUI();
+        }
 
         public void DoAction(CardInfo card)
         {
             _isNotAITurn = !_isNotAITurn;
             foreach (var e in card.Effects)
             {
-                if (_isNotAITurn && _noDrawbackCooldownPlayer > 0 && e.Type == ActionType.DAMAGE && e.Value < 0)
+                if (_isNotAITurn && GetDebuff(true, ActionType.NO_NEGATIVE_DAMAGE) && e.Type == ActionType.DAMAGE && e.Value < 0)
                     continue;
                 switch (e.Type)
                 {
@@ -168,7 +184,7 @@ namespace LudumDare53.Card
                         if (!_isNotAITurn)
                         {
                             value *= 1 + _rage / _rageReduction;
-                            if (_damageToRageCooldown > 0)
+                            if (GetDebuff(false, ActionType.DEFLECT_ON_RAGE))
                             {
                                 value /= 2;
                                 _rage -= value;
@@ -185,7 +201,7 @@ namespace LudumDare53.Card
                         else
                         {
                             value *= -1;
-                            if (_attackBoost > 0 && value < 0)
+                            if (GetDebuff(true, ActionType.DAMAGE_BOOST) && value < 0)
                             {
                                 value *= 2;
                             }
@@ -193,7 +209,7 @@ namespace LudumDare53.Card
 #if UNITY_EDITOR
                         if (!_isNotAITurn)
                         {
-                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / _rageReduction) <=> {value} * {1 + _rage / _rageReduction}, rage cooldown? {_damageToRageCooldown > 0}) from a base of {HealthManager.Instance.Health}");
+                            Debug.Log($"Taking {value} damage ({e.Value} with a rage of {_rage} = {value} * (1 + {_rage} / _rageReduction) <=> {value} * {1 + _rage / _rageReduction}, rage cooldown? {GetDebuff(false, ActionType.DEFLECT_ON_RAGE)}) from a base of {HealthManager.Instance.Health}");
                         }
 #endif
                         HealthManager.Instance.TakeDamage(value);
@@ -222,12 +238,12 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.CANT_ATTACK: // Debuff that will be applied to the player need to have their counter increased by 1 because of how the debuff system is handled
-                        if (_isNotAITurn) _attackCooldownAI = e.Value;
-                        else _attackCooldownPlayer = e.Value + 1;
+                        if (_isNotAITurn) AddDebuff(false, e.Type, e.Value);
+                        else AddDebuff(true, e.Type, e.Value + 1);
                         break;
 
                     case ActionType.FORCE_ATTACK:
-                        if (_isNotAITurn) _attackForceCooldownAI = e.Value;
+                        if (_isNotAITurn) AddDebuff(false, e.Type, e.Value);
                         else throw new NotImplementedException();
                         break;
 
@@ -237,17 +253,17 @@ namespace LudumDare53.Card
                         break;
 
                     case ActionType.NO_NEGATIVE_DAMAGE:
-                        if (_isNotAITurn) _noDrawbackCooldownPlayer = e.Value + 1;
+                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value + 1);
                         else throw new NotImplementedException();
                         break;
 
                     case ActionType.DEFLECT_ON_RAGE:
-                        if (_isNotAITurn) _damageToRageCooldown = e.Value;
+                        if (_isNotAITurn) AddDebuff(false, e.Type, e.Value);
                         else throw new NotImplementedException();
                         break;
 
                     case ActionType.DAMAGE_BOOST:
-                        if (_isNotAITurn) _attackBoost = e.Value + 1;
+                        if (_isNotAITurn) AddDebuff(true, e.Type, e.Value + 1);
                         else throw new NotImplementedException();
                         break;
 
@@ -270,22 +286,59 @@ namespace LudumDare53.Card
                     }
                     else
                     {
-                        if (_attackCooldownPlayer > 0)
-                            _attackCooldownPlayer--;
-                        if (_attackCooldownAI > 0)
-                            _attackCooldownAI--;
-                        if (_attackForceCooldownAI > 0)
-                            _attackForceCooldownAI--;
-                        if (_noDrawbackCooldownPlayer > 0)
-                            _noDrawbackCooldownPlayer--;
-                        if (_damageToRageCooldown > 0)
-                            _damageToRageCooldown--;
-                        if (_attackBoost > 0)
-                            _attackBoost--;
+                        foreach (var d in _debuffs)
+                        {
+                            foreach (var d2 in d.Value)
+                            {
+                                if (d2.Value.Value > 0)
+                                {
+                                    d2.Value.Value--;
+                                }
+                            }
+                        }
+                        UpdateUI();
                         SpawnCards();
                     }
                 });
             }
+        }
+
+        private bool GetDebuff(bool isPlayer, ActionType type)
+            => _debuffs[isPlayer].ContainsKey(type) ? _debuffs[isPlayer][type].Value > 0 : false;
+
+        private string DebuffKeyToString(ActionType type)
+        {
+            return type switch
+            {
+                ActionType.CANT_ATTACK => "No Attack",
+                ActionType.FORCE_ATTACK => "Force Attack",
+                ActionType.NO_NEGATIVE_DAMAGE => "No Negative Damage",
+                ActionType.DEFLECT_ON_RAGE => " ",
+                ActionType.DAMAGE_BOOST => "Damage Increase",
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        private void UpdateUI()
+        {
+            StringBuilder str = new();
+            foreach (var d2 in _debuffs[true])
+            {
+                if (GetDebuff(true, d2.Key))
+                {
+                    str.AppendLine($"{DebuffKeyToString(d2.Key)}: {Mathf.Min(d2.Value.Value, d2.Value.MaxValue)}");
+                }
+            }
+            _debuffDisplayPlayer.text = str.ToString();
+            str = new();
+            foreach (var d2 in _debuffs[false])
+            {
+                if (GetDebuff(false, d2.Key))
+                {
+                    str.AppendLine($"{DebuffKeyToString(d2.Key)}: {Mathf.Min(d2.Value.Value, d2.Value.MaxValue)}");
+                }
+            }
+            _debuffDisplayAI.text = str.ToString();
         }
     }
 }
