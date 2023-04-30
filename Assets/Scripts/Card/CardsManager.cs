@@ -47,6 +47,7 @@ namespace LudumDare53.Card
         private readonly Dictionary<bool, Dictionary<ActionType, Debuff>> _debuffs = new();
 
         private int _rageReduction = 7;
+        private float _damageMultiplicator = 1.5f;
 
         public int TurnCount { set; get; }
 
@@ -114,7 +115,7 @@ namespace LudumDare53.Card
             {
                 if (GetDebuff(true, ActionType.DAMAGE_BOOST))
                 {
-                    modValue *= 2;
+                    modValue = Mathf.FloorToInt(modValue * _damageMultiplicator);
                     if (limit && modValue > 100) modValue = 100;
                     return $"Inflict <color=green>{modValue}</color> damage";
                 }
@@ -143,7 +144,7 @@ namespace LudumDare53.Card
                 ActionType.NO_NEGATIVE_DAMAGE => $"Negative damage doesn't apply for the next {x.Value} turns",
                 ActionType.DEFLECT_ON_RAGE => $"All damage taken for {x.Value} turns are halved and reduce the rage",
                 ActionType.FORCE_ATTACK => $"Force target to play damage cards for {x.Value} turns",
-                ActionType.DAMAGE_BOOST => $"All your attacks does twice the amount of damage for {x.Value} turns",
+                ActionType.DAMAGE_BOOST => $"All your attacks does {_damageMultiplicator}x the amount of damage for {x.Value} turns",
                 _ => throw new NotImplementedException()
             }));
         }
@@ -214,7 +215,7 @@ namespace LudumDare53.Card
                             value *= -1;
                             if (GetDebuff(true, ActionType.DAMAGE_BOOST) && value < 0)
                             {
-                                value *= 2;
+                                value = Mathf.FloorToInt(value * _damageMultiplicator);
                             }
                         }
 #if UNITY_EDITOR
@@ -338,7 +339,7 @@ namespace LudumDare53.Card
                 ActionType.FORCE_ATTACK => $"Force Attack: {value}",
                 ActionType.NO_NEGATIVE_DAMAGE => $"No Negative Damage: {value}",
                 ActionType.DEFLECT_ON_RAGE => $"Damage Halved: {value}\nDamage Reduce Rage: {value}",
-                ActionType.DAMAGE_BOOST => $"Damage Doubled: {value}",
+                ActionType.DAMAGE_BOOST => $"Damage Boosted: {value}",
                 _ => throw new NotImplementedException()
             };
         }
