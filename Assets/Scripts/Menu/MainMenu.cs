@@ -9,5 +9,13 @@ namespace LudumDare53.Menu
         {
             SceneManager.LoadScene("Main");
         }
+
+        public void OnSecretValueChanged(string s)
+        {
+            if (s == "5490")
+            {
+                SceneManager.LoadScene("Minigame");
+            }
+        }
     }
 }
