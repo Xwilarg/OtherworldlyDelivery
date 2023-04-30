@@ -159,12 +159,11 @@ namespace LudumDare53.Card
             var targetD = _debuffs[isPlayer];
             if (targetD.ContainsKey(action))
             {
-                targetD[action].Value = value + (isPlayer ? 1 : 0);
-                targetD[action].MaxValue = value;
+                targetD[action].Value = value;
             }
             else
             {
-                targetD.Add(action, new() { Value = value + (isPlayer ? 1 : 0), MaxValue = value });
+                targetD.Add(action, new() { Value = value });
             }
             UpdateUI();
         }
@@ -172,6 +171,17 @@ namespace LudumDare53.Card
         public void DoAction(CardInfo card)
         {
             _isNotAITurn = !_isNotAITurn;
+            if (_isNotAITurn)
+            {
+                foreach (var d2 in _debuffs[true])
+                {
+                    if (d2.Value.Value > 0)
+                    {
+                        d2.Value.Value--;
+                    }
+                }
+                UpdateUI();
+            }
             foreach (var e in card.Effects)
             {
                 if (_isNotAITurn && GetDebuff(true, ActionType.NO_NEGATIVE_DAMAGE) && e.Type == ActionType.DAMAGE && e.Value < 0)
@@ -281,13 +291,6 @@ namespace LudumDare53.Card
                     RemoveCards();
                     if (_isNotAITurn)
                     {
-                        foreach (var d2 in _debuffs[true])
-                        {
-                            if (d2.Value.Value > 0)
-                            {
-                                d2.Value.Value--;
-                            }
-                        }
                         AIManager.Instance.Play();
                     }
                     else
@@ -329,7 +332,7 @@ namespace LudumDare53.Card
             {
                 if (GetDebuff(true, d2.Key))
                 {
-                    str.AppendLine(DebuffKeyToString(d2.Key, Mathf.Min(d2.Value.Value, d2.Value.MaxValue)));
+                    str.AppendLine(DebuffKeyToString(d2.Key, d2.Value.Value));
                 }
             }
             _debuffDisplayPlayer.text = str.ToString();
@@ -338,7 +341,7 @@ namespace LudumDare53.Card
             {
                 if (GetDebuff(false, d2.Key))
                 {
-                    str.AppendLine(DebuffKeyToString(d2.Key, Mathf.Min(d2.Value.Value, d2.Value.MaxValue)));
+                    str.AppendLine(DebuffKeyToString(d2.Key, d2.Value.Value));
                 }
             }
             _debuffDisplayAI.text = str.ToString();
