@@ -18,13 +18,18 @@ namespace LudumDare53.NPC
             _timer = _refTimer;
         }
 
+        public void ChangeSprite()
+        {
+            _timer = _refTimer;
+            _sr.sprite = _sprites[Random.Range(0, _sprites.Length)];
+        }
+
         private void Update()
         {
             _timer -= Time.deltaTime;
             if (_timer < 0f)
             {
-                _timer = _refTimer;
-                _sr.sprite = _sprites[Random.Range(1, _sprites.Length)];
+                ChangeSprite();
             }
         }
     }

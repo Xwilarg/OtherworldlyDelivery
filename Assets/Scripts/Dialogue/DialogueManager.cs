@@ -1,5 +1,6 @@
 using LudumDare53.Audio;
 using LudumDare53.Card;
+using LudumDare53.NPC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,8 @@ namespace LudumDare53.Dialogue
         [SerializeField]
         private AudioClip _gameClip;
 
+        private Spirit _spiritScript;
+
         private string[] _lines;
         private int _index;
 
@@ -72,6 +75,7 @@ namespace LudumDare53.Dialogue
         {
             Instance = this;
             _cardsManager = GetComponent<CardsManager>();
+            _spiritScript = _spirit.GetComponent<Spirit>();
             if (!_isEnabled)
             {
                 _textContainer.SetActive(false);
@@ -178,6 +182,7 @@ namespace LudumDare53.Dialogue
                     {
                         _spirit.gameObject.SetActive(true);
                         _spirit.color = _colors[target];
+                        _spiritScript.ChangeSprite();
                     }
                 }
                 else
