@@ -147,7 +147,7 @@ namespace LudumDare53.Card
 
                 var targetCounter = _isNotAITurn ? _attackCooldownAI : _attackCooldownPlayer;
                 if (targetCounter > 0)
-                    return !x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0) && !x.Effects.Any(x => x.Type == ActionType.CANT_ATTACK);
+                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0)|| e.Type == ActionType.FORCE_ATTACK) && !x.Effects.Any(x => x.Type == ActionType.FORCE_ATTACK);
                 if (_attackForceCooldownAI > 0 && _isNotAITurn)
                     return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
                 return true;
