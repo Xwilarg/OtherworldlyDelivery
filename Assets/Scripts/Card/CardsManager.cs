@@ -165,23 +165,16 @@ namespace LudumDare53.Card
             {
                 targetD.Add(action, new() { Value = value });
             }
+            if (_isNotAITurn && isPlayer)
+            {
+                targetD[action].BypassFirst = true;
+            }
             UpdateUI();
         }
 
         public void DoAction(CardInfo card)
         {
             _isNotAITurn = !_isNotAITurn;
-            if (_isNotAITurn)
-            {
-                foreach (var d2 in _debuffs[true])
-                {
-                    if (d2.Value.Value > 0)
-                    {
-                        d2.Value.Value--;
-                    }
-                }
-                UpdateUI();
-            }
             foreach (var e in card.Effects)
             {
                 if (_isNotAITurn && GetDebuff(true, ActionType.NO_NEGATIVE_DAMAGE) && e.Type == ActionType.DAMAGE && e.Value < 0)
@@ -279,6 +272,22 @@ namespace LudumDare53.Card
                     default:
                         throw new NotImplementedException();
                 }
+            }
+            if (_isNotAITurn)
+            {
+                foreach (var d2 in _debuffs[true])
+                {
+                    if (d2.Value.BypassFirst)
+                    {
+                        d2.Value.BypassFirst = false;
+                        continue;
+                    }
+                    if (d2.Value.Value > 0)
+                    {
+                        d2.Value.Value--;
+                    }
+                }
+                UpdateUI();
             }
             if (!HealthManager.Instance.HasLost)
             {
