@@ -70,11 +70,11 @@ namespace LudumDare53.NPC
             }
             if (card.Effects.Any(x => x.Type == ActionType.RAGE && x.Value > 0))
             {
-                _waitBeforeAttack = 1;
+                _waitBeforeRage = 1;
             }
             else if (CardsManager.Instance.Rage <= _rageLowerLimit)
             {
-                _waitBeforeAttack--;
+                _waitBeforeRage--;
             }
             _lastCard = card.Title;
             CardsManager.Instance.SpawnAICard(card);
