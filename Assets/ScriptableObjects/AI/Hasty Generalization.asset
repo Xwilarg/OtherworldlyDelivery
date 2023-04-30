@@ -16,6 +16,6 @@ MonoBehaviour:
   Sentence: Of course a god would never order something like that
   Effects:
   - Type: 0
-    Value: 5
-  - Type: 1
     Value: 2
+  - Type: 1
+    Value: 5
