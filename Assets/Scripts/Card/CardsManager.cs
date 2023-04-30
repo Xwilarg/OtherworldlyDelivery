@@ -151,9 +151,11 @@ namespace LudumDare53.Card
             => cards.Where(x =>
             {
                 if (GetDebuff(!_isNotAITurn, ActionType.CANT_ATTACK))
-                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0) || e.Type == ActionType.FORCE_ATTACK);
+                    return !x.Effects.Any(e => (e.Type == ActionType.DAMAGE && e.Value > 0));
                 if (GetDebuff(false, ActionType.FORCE_ATTACK) && _isNotAITurn)
                     return x.Effects.Any(e => e.Type == ActionType.DAMAGE && e.Value > 0);
+                if (GetDebuff(_isNotAITurn, ActionType.CANT_ATTACK)) // If enemy can't attack, don't let player use a card that force him to attack
+                    return !x.Effects.Any(e => e.Type == ActionType.FORCE_ATTACK);
                 return true;
             }).ToArray();
 
