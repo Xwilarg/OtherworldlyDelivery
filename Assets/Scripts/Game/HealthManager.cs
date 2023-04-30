@@ -38,6 +38,7 @@ namespace LudumDare53.Game
             _prevMaxHealth = _aiMaxHealth;
             _aiMaxHealth -= amount;
             _maxHealthTimer = 0f;
+            TakeDamage(0); // Used to do victory check and stuff
         }
 
         public void TakeDamage(int amount)
